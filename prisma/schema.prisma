@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = env("DB_PROVIDER")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Explanation {
+  id          String   @id @default(cuid())
+  slug        String   @unique   // one per docType e.g. "rental-agreement"
+  docType     String   @unique   // one record per document type
+  explanation String             // best explanation stored
+  snippets    String   @default("[]") // JSON array of real text snippets from users
+  language    String   @default("English")
+  views       Int      @default(0)
+  count       Int      @default(1)  // times this doc type was explained
+  isPhishing  Boolean  @default(false)
+  verdict     String?
+  confidence  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([docType])
+  @@index([isPhishing])
+  @@index([views])
+}
