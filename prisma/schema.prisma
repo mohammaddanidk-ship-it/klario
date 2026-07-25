@@ -3,20 +3,19 @@ generator client {
 }
 
 datasource db {
-  provider  = env("DB_PROVIDER")
+  provider  = "sqlite"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model Explanation {
   id          String   @id @default(cuid())
-  slug        String   @unique   // one per docType e.g. "rental-agreement"
-  docType     String   @unique   // one record per document type
-  explanation String             // best explanation stored
-  snippets    String   @default("[]") // JSON array of real text snippets from users
+  slug        String   @unique
+  docType     String   @unique
+  explanation String
+  snippets    String   @default("[]")
   language    String   @default("English")
   views       Int      @default(0)
-  count       Int      @default(1)  // times this doc type was explained
+  count       Int      @default(1)
   isPhishing  Boolean  @default(false)
   verdict     String?
   confidence  String?
