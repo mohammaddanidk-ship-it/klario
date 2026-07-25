@@ -86,19 +86,11 @@ export function Navigation() {
 
               <div className="hidden lg:flex lg:items-center lg:gap-2 lg:ms-1">
                 <Button
-                  variant="ghost"
-                  size="sm"
-                  asChild
-                  className="text-sm font-medium text-muted-foreground hover:text-navy hover:dark:text-white"
-                >
-                  <Link href="#signin">{t.nav_signIn}</Link>
-                </Button>
-                <Button
                   size="sm"
                   asChild
                   className="group h-9 gap-1.5 rounded-full bg-navy px-4 text-sm font-medium text-white shadow-premium-sm transition-all hover:bg-navy-deep hover:shadow-premium dark:bg-white dark:text-navy dark:hover:bg-white/90"
                 >
-                  <Link href="#get-started">
+                  <Link href="#upload">
                     {t.nav_getStarted}
                     <ArrowRight className={cn("h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 rtl-flip", rtl && "rtl-flip")} />
                   </Link>
@@ -154,19 +146,10 @@ export function Navigation() {
               </nav>
               <div className="mt-auto flex flex-col gap-3">
                 <Button
-                  variant="outline"
-                  asChild
-                  className="h-11 rounded-full border-border text-sm font-medium"
-                >
-                  <Link href="#signin" onClick={() => setMobileOpen(false)}>
-                    {t.nav_signIn}
-                  </Link>
-                </Button>
-                <Button
                   asChild
                   className="h-11 gap-1.5 rounded-full bg-navy text-sm font-medium text-white shadow-premium dark:bg-white dark:text-navy"
                 >
-                  <Link href="#get-started" onClick={() => setMobileOpen(false)}>
+                  <Link href="#upload" onClick={() => setMobileOpen(false)}>
                     {t.nav_getStarted}
                     <ArrowRight className="h-4 w-4 rtl-flip" />
                   </Link>

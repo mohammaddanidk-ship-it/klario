@@ -49,10 +49,10 @@ const en: Translation = {
     "Paste a suspicious email, SMS, or screenshot. Klario tells you if it's safe, why it looks risky, and exactly what to do next.",
   tcf_scamCta: "See how it works",
 
-  du_eyebrow: "Document understanding",
-  du_title: "Seven things Klario gives you for every document",
+  du_eyebrow: "Why Klario",
+  du_title: "Most AI tools summarize. Klario helps you understand.",
   du_description:
-    "Not a summary. A real understanding — with the risks surfaced and the next steps spelled out.",
+    "Summaries repeat what a document says. Klario explains what it means, what risks exist, and what you should do next — in plain language, in your language.",
   du_1_title: "Simple explanation",
   du_1_desc: "A clear, plain-language explanation of what the document is and why it matters to you.",
   du_2_title: "Short summary",
@@ -355,10 +355,10 @@ const es: Translation = {
     "Pega un email, SMS o captura sospechosa. Klario te dice si es seguro, por qué parece riesgoso y qué hacer exactamente.",
   tcf_scamCta: "Ver cómo funciona",
 
-  du_eyebrow: "Comprensión de documentos",
-  du_title: "Siete cosas que Klario te da por cada documento",
+  du_eyebrow: "Por qué Klario",
+  du_title: "La mayoría de las IA resumen. Klario te ayuda a entender.",
   du_description:
-    "No es un resumen. Es una comprensión real — con los riesgos a la vista y los siguientes pasos explicados.",
+    "Un resumen repite lo que dice el documento. Klario explica qué significa, qué riesgos existen y qué deberías hacer después — en lenguaje simple, en tu idioma.",
   du_1_title: "Explicación sencilla",
   du_1_desc: "Una explicación clara, en palabras simples, de qué es el documento y por qué te importa.",
   du_2_title: "Resumen breve",

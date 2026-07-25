@@ -45,7 +45,7 @@ export function MultiLanguage() {
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm font-medium text-navy dark:text-white">
               <Languages className="h-4 w-4 text-brand" />
-              16 languages
+              Designed for 16 languages
             </div>
             <span className="text-xs text-muted-foreground">
               {LANGUAGES.filter((l) => l.rtl).length} RTL · {LANGUAGES.length - LANGUAGES.filter((l) => l.rtl).length} LTR

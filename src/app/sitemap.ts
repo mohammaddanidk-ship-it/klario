@@ -23,6 +23,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: base,            lastModified: new Date(), changeFrequency: "daily",  priority: 1.0 },
     { url: `${base}/#upload`,        lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/#scam-detector`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/medical-report-summary-ai`,  lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/legal-document-explainer`,   lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/phishing-email-detector`,    lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/scam-message-checker`,       lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/document-understanding-ai`,  lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     ...dynamic,
   ];
 }

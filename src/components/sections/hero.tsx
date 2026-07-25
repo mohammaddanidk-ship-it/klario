@@ -86,6 +86,18 @@ export function Hero() {
               {t.hero_subtitle}
             </motion.p>
 
+            {/* Instant value strip — upload anything → get clarity, in 5 seconds */}
+            <motion.div
+              initial={reduced ? undefined : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-6 flex flex-wrap items-center gap-2 rounded-xl border border-border bg-card/60 px-4 py-3 text-xs font-medium text-muted-foreground backdrop-blur-sm sm:text-sm"
+            >
+              <span className="text-navy dark:text-white">Medical · Legal · Bank · Contracts · Suspicious emails</span>
+              <ArrowRight className="h-3.5 w-3.5 text-brand rtl-flip" />
+              <span className="text-navy dark:text-white">Simple explanation · Risks · Next steps · Your language</span>
+            </motion.div>
+
             {/* On mobile, illustration goes here (between subtext and CTAs) */}
             <motion.div
               initial={reduced ? undefined : { opacity: 0, scale: 0.96 }}

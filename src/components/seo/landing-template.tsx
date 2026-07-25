@@ -1,0 +1,91 @@
+import Link from "next/link";
+import { ShieldCheck, ArrowRight, type LucideIcon } from "lucide-react";
+
+interface FAQItem { q: string; a: string; }
+
+interface LandingProps {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  icon: LucideIcon;
+  problem: string;
+  solutionPoints: string[];
+  faqs: FAQItem[];
+  ctaLabel: string;
+  ctaHref?: string;
+}
+
+export function SEOLanding({
+  eyebrow, title, subtitle, icon: Icon, problem, solutionPoints, faqs,
+  ctaLabel, ctaHref = "/#upload",
+}: LandingProps) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#F5F5F7", fontFamily: "Inter,system-ui,-apple-system,sans-serif", color: "#1D1D1F", WebkitFontSmoothing: "antialiased" }}>
+      <style>{`*{box-sizing:border-box;margin:0;padding:0;}a{color:inherit;text-decoration:none;}`}</style>
+
+      {/* Header */}
+      <header style={{ background: "#fff", borderBottom: "1px solid #E5E7EB", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
+        <Link href="/" style={{ fontWeight: 700, fontSize: 16, display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ width: 28, height: 28, borderRadius: 7, background: "#0066CC", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1L1.5 3.2V6.5c0 2.8 2.3 4.2 5 5.1 2.7-.9 5-2.3 5-5.1V3.2L6.5 1z" stroke="#fff" strokeWidth="1.3" strokeLinejoin="round"/></svg>
+          </span>
+          Klario
+        </Link>
+        <Link href={ctaHref} style={{ fontSize: 13, color: "#0066CC", fontWeight: 600 }}>{ctaLabel} →</Link>
+      </header>
+
+      <main style={{ maxWidth: 760, margin: "0 auto", padding: "48px 20px 80px" }}>
+        {/* Hero */}
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", borderRadius: 20, background: "#EFF6FF", border: "1px solid #BFDBFE", marginBottom: 18 }}>
+          <Icon size={13} color="#1D4ED8" />
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#1E3A8A", letterSpacing: ".08em", textTransform: "uppercase" }}>{eyebrow}</span>
+        </div>
+        <h1 style={{ fontSize: "clamp(28px,5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.03em", marginBottom: 14 }}>{title}</h1>
+        <p style={{ fontSize: 17, color: "#4B5563", lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>{subtitle}</p>
+
+        {/* Problem */}
+        <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 16 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>The problem</p>
+          <p style={{ fontSize: 15, color: "#1D1D1F", lineHeight: 1.7 }}>{problem}</p>
+        </div>
+
+        {/* Solution */}
+        <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 16 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: "#1E3A8A", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>How Klario helps</p>
+          {solutionPoints.map((p, i) => (
+            <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10, alignItems: "flex-start" }}>
+              <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#0066CC", flexShrink: 0, marginTop: 9 }}/>
+              <span style={{ fontSize: 15, lineHeight: 1.65 }}>{p}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Trust */}
+        <div style={{ padding: "16px 20px", borderRadius: 12, background: "#F0FDF4", border: "1px solid #BBF7D0", marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
+          <ShieldCheck size={16} color="#15803D" />
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#166534" }}>Documents never stored · No account required · Free forever</span>
+        </div>
+
+        {/* FAQ */}
+        <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 24 }}>
+          <h2 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>Frequently asked questions</h2>
+          {faqs.map((f, i) => (
+            <div key={i} style={{ marginBottom: i < faqs.length - 1 ? 14 : 0, paddingBottom: i < faqs.length - 1 ? 14 : 0, borderBottom: i < faqs.length - 1 ? "1px solid #F3F4F6" : "none" }}>
+              <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 5 }}>{f.q}</p>
+              <p style={{ fontSize: 13, color: "#6E6E73", lineHeight: 1.6 }}>{f.a}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div style={{ padding: "28px 24px", borderRadius: 14, background: "#0A1628", textAlign: "center", color: "#fff" }}>
+          <p style={{ fontWeight: 800, fontSize: 22, marginBottom: 8, letterSpacing: "-.03em" }}>Try it with your own document</p>
+          <p style={{ fontSize: 15, color: "rgba(255,255,255,.55)", marginBottom: 22, lineHeight: 1.6 }}>Free, private, instant. No account needed.</p>
+          <Link href={ctaHref} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#0066CC", color: "#fff", padding: "13px 30px", borderRadius: 10, fontWeight: 700, fontSize: 15 }}>
+            {ctaLabel} <ArrowRight size={15} />
+          </Link>
+        </div>
+      </main>
+    </div>
+  );
+}
