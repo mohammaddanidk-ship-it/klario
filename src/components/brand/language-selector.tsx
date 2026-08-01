@@ -24,6 +24,7 @@ export function LanguageSelector({
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const listRef = React.useRef<HTMLUListElement>(null);
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
 
   const current = languages.find((l) => l.code === lang) ?? languages[0];
   const isFooter = variant === "footer";
@@ -44,12 +45,7 @@ export function LanguageSelector({
   React.useEffect(() => {
     if (!open) return;
     const onPointer = (e: MouseEvent) => {
-      if (
-        !triggerRef.current?.contains(e.target as Node) &&
-        !listRef.current?.contains(e.target as Node) &&
-        !searchInputRef.current?.contains(e.target as Node) &&
-        !(e.target as HTMLElement)?.closest?.("[data-lang-sheet]")
-      ) {
+      if (!wrapperRef.current?.contains(e.target as Node)) {
         setOpen(false);
       }
     };
@@ -215,7 +211,7 @@ export function LanguageSelector({
   );
 
   return (
-    <div className="relative">
+    <div className="relative" ref={wrapperRef}>
       {trigger}
 
       {open ? (
