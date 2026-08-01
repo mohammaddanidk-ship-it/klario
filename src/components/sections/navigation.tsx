@@ -62,7 +62,7 @@ export function Navigation() {
             <Link
               href="/"
               className="flex items-center transition-opacity hover:opacity-80"
-              aria-label="Klario home"
+              aria-label="Klarium home"
             >
               <Logo />
             </Link>

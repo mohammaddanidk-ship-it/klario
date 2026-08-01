@@ -8,15 +8,15 @@ interface Props { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const rec = await db.explanation.findUnique({ where: { slug } });
-  if (!rec) return { title: "Not Found | Klario" };
+  if (!rec) return { title: "Not Found | Klarium" };
 
   const count = rec.count > 1 ? ` — explained ${rec.count} times` : "";
   const title = rec.isPhishing
-    ? `How to detect ${rec.docType} scams | Klario`
-    : `How to understand a ${rec.docType}${count} | Klario`;
+    ? `How to detect ${rec.docType} scams | Klarium`
+    : `How to understand a ${rec.docType}${count} | Klarium`;
   const desc = rec.isPhishing
-    ? `Klario Shield explains how to identify ${rec.docType} fraud. Free AI scam detection. No account required.`
-    : `Klario explains what a ${rec.docType} means in plain language. Free AI document clarity. No account required.`;
+    ? `Klarium Shield explains how to identify ${rec.docType} fraud. Free AI scam detection. No account required.`
+    : `Klarium explains what a ${rec.docType} means in plain language. Free AI document clarity. No account required.`;
 
   return {
     title,
@@ -56,7 +56,7 @@ export default async function ExplainPage({ params }: Props) {
           <span style={{ width:28, height:28, borderRadius:7, background:accent, display:"flex", alignItems:"center", justifyContent:"center" }}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1L1.5 3.2V6.5c0 2.8 2.3 4.2 5 5.1 2.7-.9 5-2.3 5-5.1V3.2L6.5 1z" stroke="#fff" strokeWidth="1.3" strokeLinejoin="round"/></svg>
           </span>
-          Klario
+          Klarium
         </Link>
         <Link href="/#upload" style={{ fontSize:13, color:accent, fontWeight:600 }}>
           Try with your document →
@@ -67,7 +67,7 @@ export default async function ExplainPage({ params }: Props) {
 
         {/* Breadcrumb */}
         <p style={{ fontSize:12, color:"#6E6E73", marginBottom:24 }}>
-          <Link href="/" style={{ color:accent }}>Klario</Link>
+          <Link href="/" style={{ color:accent }}>Klarium</Link>
           {" / "}
           <Link href="/" style={{ color:accent }}>{rec.isPhishing ? "Scam Shield" : "Document Clarity"}</Link>
           {" / "}
@@ -85,7 +85,7 @@ export default async function ExplainPage({ params }: Props) {
         {/* Meta row */}
         <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:28, flexWrap:"wrap" }}>
           <span style={{ fontSize:12, color:"#6E6E73" }}>
-            Explained by Klario AI · {new Date(rec.createdAt).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })}
+            Explained by Klarium AI · {new Date(rec.createdAt).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })}
           </span>
           {rec.count > 1 && (
             <span style={{ fontSize:12, fontWeight:600, color:accent, background:accentBg, border:`1px solid ${accentBr}`, padding:"3px 10px", borderRadius:20 }}>
@@ -127,7 +127,7 @@ export default async function ExplainPage({ params }: Props) {
             </div>
             <div>
               <p style={{ fontSize:11, fontWeight:700, color:accentDk, letterSpacing:".08em", textTransform:"uppercase" }}>
-                {rec.isPhishing ? "Klario Shield — Fraud Analysis" : "Klario — Document Explanation"}
+                {rec.isPhishing ? "Klarium Shield — Fraud Analysis" : "Klarium — Document Explanation"}
               </p>
               <p style={{ fontSize:10, color:"#9CA3AF", marginTop:1 }}>in {rec.language} · Updated {new Date(rec.updatedAt).toLocaleDateString()}</p>
             </div>
@@ -174,7 +174,7 @@ export default async function ExplainPage({ params }: Props) {
               ))}
             </div>
             <p style={{ fontSize:11, color:"#9CA3AF", marginTop:12 }}>
-              These examples were submitted by real users and explained by Klario AI.
+              These examples were submitted by real users and explained by Klarium AI.
             </p>
           </div>
         )}
@@ -185,12 +185,12 @@ export default async function ExplainPage({ params }: Props) {
             Common questions about {rec.docType}s
           </h2>
           {(rec.isPhishing ? [
-            { q:`How do I know if a ${rec.docType} is a scam?`, a:`Look for urgent language, suspicious links, requests for personal information, and sender addresses that don't match the official organisation. Klario Shield can analyse any message instantly.` },
+            { q:`How do I know if a ${rec.docType} is a scam?`, a:`Look for urgent language, suspicious links, requests for personal information, and sender addresses that don't match the official organisation. Klarium Shield can analyse any message instantly.` },
             { q:`What should I do if I received a suspicious ${rec.docType}?`, a:`Do not click any links or provide any information. Contact the organisation directly using a phone number from their official website. Report the message to your bank's fraud team.` },
           ] : [
-            { q:`What is a ${rec.docType}?`, a:`A ${rec.docType} is a formal document that contains legal or official information. Klario explains what it means in plain language so you can understand your rights and obligations.` },
-            { q:`Do I need a lawyer to understand a ${rec.docType}?`, a:`For major decisions, yes. But Klario helps you understand the basics first — what the document says, what to watch out for, and what questions to ask your lawyer.` },
-            { q:`Is it safe to upload a ${rec.docType} to Klario?`, a:`Yes. Klario processes your document privately and never stores it on our servers. Your document is analysed in real-time and immediately discarded.` },
+            { q:`What is a ${rec.docType}?`, a:`A ${rec.docType} is a formal document that contains legal or official information. Klarium explains what it means in plain language so you can understand your rights and obligations.` },
+            { q:`Do I need a lawyer to understand a ${rec.docType}?`, a:`For major decisions, yes. But Klarium helps you understand the basics first — what the document says, what to watch out for, and what questions to ask your lawyer.` },
+            { q:`Is it safe to upload a ${rec.docType} to Klarium?`, a:`Yes. Klarium processes your document privately and never stores it on our servers. Your document is analysed in real-time and immediately discarded.` },
           ]).map(({ q, a }, i) => (
             <div key={i} style={{ marginBottom: i < 1 ? 14 : 0, paddingBottom: i < 1 ? 14 : 0, borderBottom: i < 1 ? "1px solid #F3F4F6" : "none" }}>
               <p style={{ fontSize:14, fontWeight:600, color:"#1D1D1F", marginBottom:5 }}>{q}</p>
@@ -205,7 +205,7 @@ export default async function ExplainPage({ params }: Props) {
             Have a confusing document?
           </p>
           <p style={{ fontSize:15, color:"rgba(255,255,255,.55)", marginBottom:22, lineHeight:1.6 }}>
-            Klario explains any document in plain language. Free, private, instant.
+            Klarium explains any document in plain language. Free, private, instant.
           </p>
           <Link href="/#upload" style={{ display:"inline-block", background:accent, color:"#fff", padding:"13px 30px", borderRadius:10, fontWeight:700, fontSize:15 }}>
             Explain My Document →
@@ -224,7 +224,7 @@ export default async function ExplainPage({ params }: Props) {
         "description": `Plain language explanation of a ${rec.docType}`,
         "datePublished": rec.createdAt.toISOString(),
         "dateModified":  rec.updatedAt.toISOString(),
-        "publisher": { "@type":"Organization", "name":"Klario", "url":"https://klario.tools" },
+        "publisher": { "@type":"Organization", "name":"Klarium", "url":"https://klarium.tools" },
         "inLanguage": rec.language,
         "interactionStatistic": {
           "@type": "InteractionCounter",

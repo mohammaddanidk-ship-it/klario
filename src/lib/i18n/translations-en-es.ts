@@ -20,7 +20,7 @@ const en: Translation = {
   hero_title_1: "Understand anything.",
   hero_title_2: "Stay safe. In your language.",
   hero_subtitle:
-    "Klario reads medical reports, legal notices, bank letters, contracts, and suspicious messages — then explains them in plain words, in your language, before you make a decision.",
+    "Klarium reads medical reports, legal notices, bank letters, contracts, and suspicious messages — then explains them in plain words, in your language, before you make a decision.",
   hero_ctaPrimary: "Analyze a document",
   hero_ctaSecondary: "Try the scam detector",
   hero_trust1: "Private by design",
@@ -35,24 +35,24 @@ const en: Translation = {
   trust_3: "User-controlled uploads",
   trust_4: "Responsible AI",
 
-  tcf_eyebrow: "Two ways Klario helps",
+  tcf_eyebrow: "Two ways Klarium helps",
   tcf_title_1: "One assistant.",
   tcf_title_2: "Two kinds of clarity.",
   tcf_description:
-    "Klario does two things, and does them seriously: it explains important documents in words you can trust, and it tells you whether a message is trying to trick you.",
+    "Klarium does two things, and does them seriously: it explains important documents in words you can trust, and it tells you whether a message is trying to trick you.",
   tcf_docTitle: "Document understanding",
   tcf_docDesc:
-    "Upload any important document. Klario explains what it means, flags risks, and tells you what to do next — in your language.",
+    "Upload any important document. Klarium explains what it means, flags risks, and tells you what to do next — in your language.",
   tcf_docCta: "See how it works",
   tcf_scamTitle: "Phishing & scam detector",
   tcf_scamDesc:
-    "Paste a suspicious email, SMS, or screenshot. Klario tells you if it's safe, why it looks risky, and exactly what to do next.",
+    "Paste a suspicious email, SMS, or screenshot. Klarium tells you if it's safe, why it looks risky, and exactly what to do next.",
   tcf_scamCta: "See how it works",
 
-  du_eyebrow: "Why Klario",
-  du_title: "Most AI tools summarize. Klario helps you understand.",
+  du_eyebrow: "Why Klarium",
+  du_title: "Most AI tools summarize. Klarium helps you understand.",
   du_description:
-    "Summaries repeat what a document says. Klario explains what it means, what risks exist, and what you should do next — in plain language, in your language.",
+    "Summaries repeat what a document says. Klarium explains what it means, what risks exist, and what you should do next — in plain language, in your language.",
   du_1_title: "Simple explanation",
   du_1_desc: "A clear, plain-language explanation of what the document is and why it matters to you.",
   du_2_title: "Short summary",
@@ -71,7 +71,7 @@ const en: Translation = {
   pd_eyebrow: "Phishing & scam detector",
   pd_title: "Never just \"this is a scam\" — always the why",
   pd_description:
-    "Klario explains its reasoning so you can learn to spot the pattern yourself, not just trust a label.",
+    "Klarium explains its reasoning so you can learn to spot the pattern yourself, not just trust a label.",
   pd_1_title: "Safe or suspicious",
   pd_1_desc: "A clear verdict you can act on, with a confidence level attached.",
   pd_2_title: "Risk score",
@@ -84,7 +84,7 @@ const en: Translation = {
   pd_5_desc: "Step-by-step guidance: ignore, report, block, change a password, or contact your bank.",
 
   sr_eyebrow: "Sample analysis",
-  sr_title: "What a Klario report looks like",
+  sr_title: "What a Klarium report looks like",
   sr_description:
     "Every analysis is delivered as a clean, structured report — not a chat reply. This is a sample for a medical report.",
   sr_docType: "Document type",
@@ -105,17 +105,17 @@ const en: Translation = {
   sr_action_1: "Schedule a follow-up appointment with your doctor",
   sr_action_2: "Discuss dietary changes and possible vitamin D supplement",
   sr_action_3: "Re-test in 3 months as recommended",
-  sr_askAi: "Ask Klario a follow-up",
+  sr_askAi: "Ask Klarium a follow-up",
   sr_askAiPlaceholder: "e.g. What does \"mg/dL\" mean?",
   sr_translate: "Translate",
   sr_download: "Download report",
   sr_disclaimer:
-    "Klario provides information to help you understand documents. It is not a substitute for professional medical, legal, or financial advice.",
+    "Klarium provides information to help you understand documents. It is not a substitute for professional medical, legal, or financial advice.",
 
   ml_eyebrow: "Built for the whole world",
   ml_title: "Sixteen languages. One standard of accuracy.",
   ml_description:
-    "Klario was designed multilingual from day one — not translated as an afterthought. The AI reasons in your language and keeps the meaning precise.",
+    "Klarium was designed multilingual from day one — not translated as an afterthought. The AI reasons in your language and keeps the meaning precise.",
   ml_rtl: "Full right-to-left support",
   ml_rtlDesc: "Arabic and Urdu render natively, with proper layout direction and typography.",
   ml_accuracy: "Meaning over word-for-word",
@@ -127,15 +127,15 @@ const en: Translation = {
   up_title_1: "Bring the documents you",
   up_title_2: "wouldn't trust anywhere else",
   up_description:
-    "Drag, drop, and let Klario do the reading. Files are processed privately and removed when you're done. You stay in control the entire time.",
+    "Drag, drop, and let Klarium do the reading. Files are processed privately and removed when you're done. You stay in control the entire time.",
   up_dropHere: "Drop your files here",
   up_browse: "browse from your device",
   up_encrypted: "Private processing · you control deletion",
   up_types: "PDF · DOCX · PNG · JPG · EML · up to 100MB",
-  up_categories: "Document types Klario understands",
+  up_categories: "Document types Klarium understands",
   up_privacyTitle: "Your documents never leave your control",
   up_privacyDesc:
-    "Uploads are processed for your analysis and removed when you end the session. Klario does not train on your data, ever.",
+    "Uploads are processed for your analysis and removed when you end the session. Klarium does not train on your data, ever.",
   up_type_medical: "Medical reports",
   up_type_legal: "Legal notices",
   up_type_gov: "Government letters",
@@ -164,9 +164,9 @@ const en: Translation = {
   hw_1_title: "Upload securely",
   hw_1_desc:
     "Choose a document or paste a message. Uploads are processed privately — you can delete everything at any time, instantly.",
-  hw_2_title: "Klario reads and reasons",
+  hw_2_title: "Klarium reads and reasons",
   hw_2_desc:
-    "Klario extracts structure, explains the meaning, flags risks, and prepares the questions you should ask a professional — in your language.",
+    "Klarium extracts structure, explains the meaning, flags risks, and prepares the questions you should ask a professional — in your language.",
   hw_3_title: "Review and act",
   hw_3_desc:
     "Read your structured report, ask follow-up questions, translate it, or download it. Then decide with confidence.",
@@ -174,7 +174,7 @@ const en: Translation = {
   sec_eyebrow: "Security & privacy",
   sec_title: "Built for documents you can't afford to get wrong",
   sec_description:
-    "Klario is designed around a simple promise: your documents serve you, not us. Here is exactly how that works in practice.",
+    "Klarium is designed around a simple promise: your documents serve you, not us. Here is exactly how that works in practice.",
   sec_1_title: "Private by design",
   sec_1_desc:
     "We collect the minimum needed to run the service. We do not sell data, do not share it with advertisers, and do not use it to train models.",
@@ -186,17 +186,17 @@ const en: Translation = {
     "All uploads and responses are sent over TLS. Your session is isolated from other users.",
   sec_4_title: "Responsible AI",
   sec_4_desc:
-    "Klario explains its reasoning, cites the source text, and never gives a verdict without showing why. It's built to inform — not to decide for you.",
+    "Klarium explains its reasoning, cites the source text, and never gives a verdict without showing why. It's built to inform — not to decide for you.",
   sec_5_title: "No training on your data",
   sec_5_desc:
-    "Your documents and conversations are never used to train Klario's models. This is enforced in code, not just in policy.",
+    "Your documents and conversations are never used to train Klarium's models. This is enforced in code, not just in policy.",
   sec_6_title: "Transparent limitations",
   sec_6_desc:
-    "Klario tells you when it's unsure, when a document is ambiguous, and when you should speak to a professional. Honesty is a feature.",
+    "Klarium tells you when it's unsure, when a document is ambiguous, and when you should speak to a professional. Honesty is a feature.",
 
   sec_stripTitle: "Honest about what we are — and what we are not",
   sec_stripDesc:
-    "Klario is not a lawyer, doctor, or financial advisor. We do not hold certifications we have not earned. We are an understanding and safety assistant, and we are clear about that.",
+    "Klarium is not a lawyer, doctor, or financial advisor. We do not hold certifications we have not earned. We are an understanding and safety assistant, and we are clear about that.",
   sec_stripCta: "Read our full trust & legal policy",
 
   st_1_value: "16",
@@ -216,7 +216,7 @@ const en: Translation = {
     "Figures describe the product as designed. Operational metrics are published in the trust center.",
 
   legal_eyebrow: "Trust & legal",
-  legal_title: "What Klario is, and what it isn't",
+  legal_title: "What Klarium is, and what it isn't",
   legal_description:
     "We keep these short, plain, and honest. If anything here feels unclear, write to us and we'll answer directly.",
   legal_privacy: "Privacy",
@@ -224,54 +224,54 @@ const en: Translation = {
   legal_terms: "Terms",
   legal_disclaimer: "Medical & legal disclaimer",
   legal_privacyBody:
-    "Klario collects only what is required to run the service: your account email, the documents you choose to upload, and the language you select. We do not sell personal data, do not share it for advertising, and do not use your documents to train AI models. You can delete any document at any time; deletion is immediate and irreversible. A full data export is available on request.",
+    "Klarium collects only what is required to run the service: your account email, the documents you choose to upload, and the language you select. We do not sell personal data, do not share it for advertising, and do not use your documents to train AI models. You can delete any document at any time; deletion is immediate and irreversible. A full data export is available on request.",
   legal_securityBody:
     "All uploads and responses are encrypted in transit using TLS. Sessions are isolated between users. Access to production systems is restricted to a small number of named engineers and is logged. We do not currently hold SOC 2, HIPAA, or ISO 27001 certifications — when that changes, we will say so here, with a link to the report. Until then, we describe our practices honestly rather than overstate them.",
   legal_termsBody:
-    "Klario is provided as an understanding and safety assistant. You agree to use it lawfully, to upload only documents you have the right to upload, and to accept that Klario's output is informational, not professional advice. You may not use Klario to process documents on someone else's behalf without their consent, or to harm, deceive, or defraud any person. Accounts can be terminated for abuse.",
+    "Klarium is provided as an understanding and safety assistant. You agree to use it lawfully, to upload only documents you have the right to upload, and to accept that Klarium's output is informational, not professional advice. You may not use Klarium to process documents on someone else's behalf without their consent, or to harm, deceive, or defraud any person. Accounts can be terminated for abuse.",
   legal_disclaimerBody:
-    "Klario helps you understand documents. It is not a doctor, lawyer, accountant, or financial advisor, and its output is not medical, legal, or financial advice. Do not start, stop, or change any treatment, sign any contract, or make any major decision based solely on Klario's output. Always confirm important findings with a qualified professional in your jurisdiction. Klario may make mistakes — read its reasoning, not just its conclusion.",
+    "Klarium helps you understand documents. It is not a doctor, lawyer, accountant, or financial advisor, and its output is not medical, legal, or financial advice. Do not start, stop, or change any treatment, sign any contract, or make any major decision based solely on Klarium's output. Always confirm important findings with a qualified professional in your jurisdiction. Klarium may make mistakes — read its reasoning, not just its conclusion.",
   legal_cookie: "Cookie policy",
   legal_cookieBody:
-    "Klario uses a small number of essential cookies to keep you signed in and remember your language preference. We do not use advertising or cross-site tracking cookies. Your language choice is stored locally in your browser; your session token is a first-party, strictly necessary cookie. You can clear all cookies from your browser at any time, and Klario will still work — you will simply be asked to choose your language again.",
+    "Klarium uses a small number of essential cookies to keep you signed in and remember your language preference. We do not use advertising or cross-site tracking cookies. Your language choice is stored locally in your browser; your session token is a first-party, strictly necessary cookie. You can clear all cookies from your browser at any time, and Klarium will still work — you will simply be asked to choose your language again.",
   legal_aiTransparency: "AI transparency",
   legal_aiTransparencyBody:
-    "Klario uses large language models to read, summarize, and explain your documents. We tell you, in plain terms, what the model did and which parts of your document it relied on. Every analysis includes a confidence level and, where relevant, a note when the model is uncertain or the text is ambiguous. We do not present AI output as certainty. When Klario does not know, it says so. When a finding could affect your health, rights, or money, we tell you to confirm with a professional.",
+    "Klarium uses large language models to read, summarize, and explain your documents. We tell you, in plain terms, what the model did and which parts of your document it relied on. Every analysis includes a confidence level and, where relevant, a note when the model is uncertain or the text is ambiguous. We do not present AI output as certainty. When Klarium does not know, it says so. When a finding could affect your health, rights, or money, we tell you to confirm with a professional.",
   legal_responsibleAi: "Responsible AI",
   legal_responsibleAiBody:
-    "Klario is built to inform, not to decide for you. We do not build features that nudge users toward risky actions. We show the reasoning behind every risk score and every scam verdict, so you can judge for yourself. We test for bias against common document types and languages, and we publish what we find honestly. We do not claim perfection — we claim honesty about our limits. If a feature would improve beauty but reduce clarity, we keep clarity.",
+    "Klarium is built to inform, not to decide for you. We do not build features that nudge users toward risky actions. We show the reasoning behind every risk score and every scam verdict, so you can judge for yourself. We test for bias against common document types and languages, and we publish what we find honestly. We do not claim perfection — we claim honesty about our limits. If a feature would improve beauty but reduce clarity, we keep clarity.",
   legal_financial: "Financial disclaimer",
   legal_financialBody:
-    "Klario can read bank statements, invoices, contracts, and financial documents and explain what they say in plain words. Its output is not financial, investment, tax, or accounting advice, and it is not a recommendation to buy, sell, hold, or sign anything. Klario is not a regulated financial advisor. Do not make financial decisions based solely on its output. Always confirm with a licensed professional in your jurisdiction before acting on anything that affects your money.",
+    "Klarium can read bank statements, invoices, contracts, and financial documents and explain what they say in plain words. Its output is not financial, investment, tax, or accounting advice, and it is not a recommendation to buy, sell, hold, or sign anything. Klarium is not a regulated financial advisor. Do not make financial decisions based solely on its output. Always confirm with a licensed professional in your jurisdiction before acting on anything that affects your money.",
 
   faq_eyebrow: "Trust center",
   faq_title: "The questions you should be asking",
   faq_description:
     "If a service can't answer these clearly, it shouldn't have your documents. Here are ours, in plain language.",
-  faq_1_q: "Is my data used to train Klario's models?",
+  faq_1_q: "Is my data used to train Klarium's models?",
   faq_1_a:
-    "No. Klario never uses your documents, messages, or conversations to train, fine-tune, or evaluate any model. This is enforced in code and stated in our terms.",
+    "No. Klarium never uses your documents, messages, or conversations to train, fine-tune, or evaluate any model. This is enforced in code and stated in our terms.",
   faq_2_q: "What happens to my document after I'm done?",
   faq_2_a:
     "When you end a session or delete a document, it is removed immediately and irreversibly. We do not keep soft copies. You can also export everything you've uploaded at any time.",
-  faq_3_q: "Can Klario replace my doctor, lawyer, or accountant?",
+  faq_3_q: "Can Klarium replace my doctor, lawyer, or accountant?",
   faq_3_a:
-    "No, and it is not trying to. Klario helps you understand documents and spot risks before you speak to a professional. It will often tell you the exact questions to ask them. But the final decision is always yours and your professional's — not Klario's.",
+    "No, and it is not trying to. Klarium helps you understand documents and spot risks before you speak to a professional. It will often tell you the exact questions to ask them. But the final decision is always yours and your professional's — not Klarium's.",
   faq_4_q: "How accurate are the translations?",
   faq_4_a:
-    "Klario reasons in your selected language rather than translating word-for-word. Legal, medical, and financial terminology is preserved with its correct professional meaning. For right-to-left languages like Arabic and Urdu, the entire interface and the analysis flip direction correctly.",
-  faq_5_q: "Does Klario detect every scam?",
+    "Klarium reasons in your selected language rather than translating word-for-word. Legal, medical, and financial terminology is preserved with its correct professional meaning. For right-to-left languages like Arabic and Urdu, the entire interface and the analysis flip direction correctly.",
+  faq_5_q: "Does Klarium detect every scam?",
   faq_5_a:
-    "No tool can detect every scam, and any product that claims 100% detection is not being honest. Klario explains its reasoning and shows you exactly what looks suspicious, so you can make your own judgment. If something feels wrong even when Klario says it's safe, trust your instinct and verify through another channel.",
-  faq_6_q: "What if Klario makes a mistake?",
+    "No tool can detect every scam, and any product that claims 100% detection is not being honest. Klarium explains its reasoning and shows you exactly what looks suspicious, so you can make your own judgment. If something feels wrong even when Klarium says it's safe, trust your instinct and verify through another channel.",
+  faq_6_q: "What if Klarium makes a mistake?",
   faq_6_a:
-    "Klario can be wrong. That is why every analysis shows the source text it relied on, flags its own confidence level, and tells you when a document is ambiguous. If you spot an error, report it — we use those reports to improve.",
+    "Klarium can be wrong. That is why every analysis shows the source text it relied on, flags its own confidence level, and tells you when a document is ambiguous. If you spot an error, report it — we use those reports to improve.",
 
   cta_badge: "Free to try · no card required · delete anytime",
   cta_title_1: "Bring one document.",
   cta_title_2: "See why people stop guessing.",
   cta_description:
-    "Upload a report, paste a message, or just look around. Klario will explain it clearly — in your language — and you can delete everything when you're done.",
+    "Upload a report, paste a message, or just look around. Klarium will explain it clearly — in your language — and you can delete everything when you're done.",
   cta_primary: "Start understanding",
   cta_secondary: "Read the trust & legal policy",
 
@@ -326,7 +326,7 @@ const es: Translation = {
   hero_title_1: "Entiende cualquier cosa.",
   hero_title_2: "Estás seguro. En tu idioma.",
   hero_subtitle:
-    "Klario lee informes médicos, notificaciones legales, cartas del banco, contratos y mensajes sospechosos — y te los explica con palabras claras, en tu idioma, antes de que tomes una decisión.",
+    "Klarium lee informes médicos, notificaciones legales, cartas del banco, contratos y mensajes sospechosos — y te los explica con palabras claras, en tu idioma, antes de que tomes una decisión.",
   hero_ctaPrimary: "Analizar un documento",
   hero_ctaSecondary: "Probar el detector de estafas",
   hero_trust1: "Privado por diseño",
@@ -341,24 +341,24 @@ const es: Translation = {
   trust_3: "Cargas controladas por ti",
   trust_4: "IA responsable",
 
-  tcf_eyebrow: "Dos formas en que Klario te ayuda",
+  tcf_eyebrow: "Dos formas en que Klarium te ayuda",
   tcf_title_1: "Un asistente.",
   tcf_title_2: "Dos tipos de claridad.",
   tcf_description:
-    "Klario hace dos cosas, y las hace en serio: explica documentos importantes con palabras que puedes confiar, y te dice si un mensaje está intentando engañarte.",
+    "Klarium hace dos cosas, y las hace en serio: explica documentos importantes con palabras que puedes confiar, y te dice si un mensaje está intentando engañarte.",
   tcf_docTitle: "Comprensión de documentos",
   tcf_docDesc:
-    "Sube cualquier documento importante. Klario explica qué significa, señala los riesgos y te dice qué hacer después — en tu idioma.",
+    "Sube cualquier documento importante. Klarium explica qué significa, señala los riesgos y te dice qué hacer después — en tu idioma.",
   tcf_docCta: "Ver cómo funciona",
   tcf_scamTitle: "Detector de phishing y estafas",
   tcf_scamDesc:
-    "Pega un email, SMS o captura sospechosa. Klario te dice si es seguro, por qué parece riesgoso y qué hacer exactamente.",
+    "Pega un email, SMS o captura sospechosa. Klarium te dice si es seguro, por qué parece riesgoso y qué hacer exactamente.",
   tcf_scamCta: "Ver cómo funciona",
 
-  du_eyebrow: "Por qué Klario",
-  du_title: "La mayoría de las IA resumen. Klario te ayuda a entender.",
+  du_eyebrow: "Por qué Klarium",
+  du_title: "La mayoría de las IA resumen. Klarium te ayuda a entender.",
   du_description:
-    "Un resumen repite lo que dice el documento. Klario explica qué significa, qué riesgos existen y qué deberías hacer después — en lenguaje simple, en tu idioma.",
+    "Un resumen repite lo que dice el documento. Klarium explica qué significa, qué riesgos existen y qué deberías hacer después — en lenguaje simple, en tu idioma.",
   du_1_title: "Explicación sencilla",
   du_1_desc: "Una explicación clara, en palabras simples, de qué es el documento y por qué te importa.",
   du_2_title: "Resumen breve",
@@ -377,7 +377,7 @@ const es: Translation = {
   pd_eyebrow: "Detector de phishing y estafas",
   pd_title: "Nunca solo \"esto es una estafa\" — siempre el porqué",
   pd_description:
-    "Klario explica su razonamiento para que aprendas a reconocer el patrón tú mismo, no solo confíes en una etiqueta.",
+    "Klarium explica su razonamiento para que aprendas a reconocer el patrón tú mismo, no solo confíes en una etiqueta.",
   pd_1_title: "¿Seguro o sospechoso?",
   pd_1_desc: "Un veredicto claro sobre el que puedes actuar, con un nivel de confianza.",
   pd_2_title: "Puntuación de riesgo",
@@ -390,7 +390,7 @@ const es: Translation = {
   pd_5_desc: "Guía paso a paso: ignorar, reportar, bloquear, cambiar una contraseña o contactar al banco.",
 
   sr_eyebrow: "Análisis de ejemplo",
-  sr_title: "Cómo es un informe de Klario",
+  sr_title: "Cómo es un informe de Klarium",
   sr_description:
     "Cada análisis se entrega como un informe limpio y estructurado — no como una respuesta de chat. Este es un ejemplo para un informe médico.",
   sr_docType: "Tipo de documento",
@@ -411,17 +411,17 @@ const es: Translation = {
   sr_action_1: "Programa una cita de seguimiento con tu médico",
   sr_action_2: "Habla sobre cambios en la dieta y posible suplemento de vitamina D",
   sr_action_3: "Repite el análisis en 3 meses como se recomienda",
-  sr_askAi: "Pregunta a Klario",
+  sr_askAi: "Pregunta a Klarium",
   sr_askAiPlaceholder: "ej. ¿Qué significa \"mg/dL\"?",
   sr_translate: "Traducir",
   sr_download: "Descargar informe",
   sr_disclaimer:
-    "Klario ofrece información para ayudarte a entender documentos. No sustituye el consejo médico, legal o financiero profesional.",
+    "Klarium ofrece información para ayudarte a entender documentos. No sustituye el consejo médico, legal o financiero profesional.",
 
   ml_eyebrow: "Hecho para todo el mundo",
   ml_title: "Dieciséis idiomas. Un estándar de precisión.",
   ml_description:
-    "Klario se diseñó multilingüe desde el primer día — no traducido como ocurrencia tardía. La IA razona en tu idioma y mantiene el significado preciso.",
+    "Klarium se diseñó multilingüe desde el primer día — no traducido como ocurrencia tardía. La IA razona en tu idioma y mantiene el significado preciso.",
   ml_rtl: "Soporte completo de derecha a izquierda",
   ml_rtlDesc: "El árabe y el urdu se renderizan de forma nativa, con la dirección y tipografía correctas.",
   ml_accuracy: "Significado sobre palabra por palabra",
@@ -433,15 +433,15 @@ const es: Translation = {
   up_title_1: "Trae los documentos que",
   up_title_2: "no confiarías a ningún otro sitio",
   up_description:
-    "Arrastra, suelta y deja que Klario lea. Los archivos se procesan de forma privada y se eliminan cuando terminas. Tú mantienes el control en todo momento.",
+    "Arrastra, suelta y deja que Klarium lea. Los archivos se procesan de forma privada y se eliminan cuando terminas. Tú mantienes el control en todo momento.",
   up_dropHere: "Suelta tus archivos aquí",
   up_browse: "busca en tu dispositivo",
   up_encrypted: "Procesamiento privado · tú controlas la eliminación",
   up_types: "PDF · DOCX · PNG · JPG · EML · hasta 100MB",
-  up_categories: "Tipos de documentos que Klario entiende",
+  up_categories: "Tipos de documentos que Klarium entiende",
   up_privacyTitle: "Tus documentos nunca salen de tu control",
   up_privacyDesc:
-    "Las cargas se procesan para tu análisis y se eliminan cuando cierras la sesión. Klario nunca entrena con tus datos.",
+    "Las cargas se procesan para tu análisis y se eliminan cuando cierras la sesión. Klarium nunca entrena con tus datos.",
   up_type_medical: "Informes médicos",
   up_type_legal: "Notificaciones legales",
   up_type_gov: "Cartas del gobierno",
@@ -470,9 +470,9 @@ const es: Translation = {
   hw_1_title: "Sube de forma segura",
   hw_1_desc:
     "Elige un documento o pega un mensaje. Las cargas se procesan de forma privada — puedes borrar todo en cualquier momento, al instante.",
-  hw_2_title: "Klario lee y razona",
+  hw_2_title: "Klarium lee y razona",
   hw_2_desc:
-    "Klario extrae la estructura, explica el significado, señala los riesgos y prepara las preguntas que deberías hacer a un profesional — en tu idioma.",
+    "Klarium extrae la estructura, explica el significado, señala los riesgos y prepara las preguntas que deberías hacer a un profesional — en tu idioma.",
   hw_3_title: "Revisa y actúa",
   hw_3_desc:
     "Lee tu informe estructurado, haz preguntas de seguimiento, tradúcelo o descárgalo. Luego decide con confianza.",
@@ -480,7 +480,7 @@ const es: Translation = {
   sec_eyebrow: "Seguridad y privacidad",
   sec_title: "Hecho para documentos que no puedes permitirte equivocarte",
   sec_description:
-    "Klario se diseñó en torno a una promesa simple: tus documentos te sirven a ti, no a nosotros. Así es exactamente como funciona en la práctica.",
+    "Klarium se diseñó en torno a una promesa simple: tus documentos te sirven a ti, no a nosotros. Así es exactamente como funciona en la práctica.",
   sec_1_title: "Privado por diseño",
   sec_1_desc:
     "Recopilamos lo mínimo necesario para ejecutar el servicio. No vendemos datos, no los compartimos con anunciantes y no los usamos para entrenar modelos.",
@@ -491,17 +491,17 @@ const es: Translation = {
   sec_3_desc: "Todas las cargas y respuestas se envían por TLS. Tu sesión está aislada de otros usuarios.",
   sec_4_title: "IA responsable",
   sec_4_desc:
-    "Klario explica su razonamiento, cita el texto fuente y nunca da un veredicto sin mostrar por qué. Está hecho para informar — no para decidir por ti.",
+    "Klarium explica su razonamiento, cita el texto fuente y nunca da un veredicto sin mostrar por qué. Está hecho para informar — no para decidir por ti.",
   sec_5_title: "Sin entrenar con tus datos",
   sec_5_desc:
-    "Tus documentos y conversaciones nunca se usan para entrenar los modelos de Klario. Esto se aplica en el código, no solo en la política.",
+    "Tus documentos y conversaciones nunca se usan para entrenar los modelos de Klarium. Esto se aplica en el código, no solo en la política.",
   sec_6_title: "Limitaciones transparentes",
   sec_6_desc:
-    "Klario te dice cuándo no está seguro, cuándo un documento es ambiguo y cuándo deberías hablar con un profesional. La honestidad es una función.",
+    "Klarium te dice cuándo no está seguro, cuándo un documento es ambiguo y cuándo deberías hablar con un profesional. La honestidad es una función.",
 
   sec_stripTitle: "Honestos sobre lo que somos — y lo que no somos",
   sec_stripDesc:
-    "Klario no es un abogado, médico o asesor financiero. No reclamamos certificaciones que no hemos obtenido. Somos un asistente de comprensión y seguridad, y somos claros al respecto.",
+    "Klarium no es un abogado, médico o asesor financiero. No reclamamos certificaciones que no hemos obtenido. Somos un asistente de comprensión y seguridad, y somos claros al respecto.",
   sec_stripCta: "Lee nuestra política completa de confianza y legal",
 
   st_1_value: "16",
@@ -521,7 +521,7 @@ const es: Translation = {
     "Las cifras describen el producto según su diseño. Las métricas operativas se publican en el centro de confianza.",
 
   legal_eyebrow: "Confianza y legal",
-  legal_title: "Qué es Klario, y qué no es",
+  legal_title: "Qué es Klarium, y qué no es",
   legal_description:
     "Lo mantenemos corto, claro y honesto. Si algo aquí te parece confuso, escríbenos y te responderemos directamente.",
   legal_privacy: "Privacidad",
@@ -529,54 +529,54 @@ const es: Translation = {
   legal_terms: "Términos",
   legal_disclaimer: "Aviso médico y legal",
   legal_privacyBody:
-    "Klario recopila solo lo necesario para ejecutar el servicio: tu email de cuenta, los documentos que decides subir y el idioma que seleccionas. No vendemos datos personales, no los compartimos para publicidad y no usamos tus documentos para entrenar modelos de IA. Puedes borrar cualquier documento en cualquier momento; la eliminación es inmediata e irreversible. Hay una exportación completa de datos disponible bajo petición.",
+    "Klarium recopila solo lo necesario para ejecutar el servicio: tu email de cuenta, los documentos que decides subir y el idioma que seleccionas. No vendemos datos personales, no los compartimos para publicidad y no usamos tus documentos para entrenar modelos de IA. Puedes borrar cualquier documento en cualquier momento; la eliminación es inmediata e irreversible. Hay una exportación completa de datos disponible bajo petición.",
   legal_securityBody:
     "Todas las cargas y respuestas se cifran en tránsito usando TLS. Las sesiones están aisladas entre usuarios. El acceso a los sistemas de producción está restringido a un pequeño número de ingenieros identificados y se registra. Actualmente no tenemos certificaciones SOC 2, HIPAA ni ISO 27001 — cuando eso cambie, lo diremos aquí, con un enlace al informe. Hasta entonces, describimos nuestras prácticas con honestidad en lugar de exagerarlas.",
   legal_termsBody:
-    "Klario se ofrece como un asistente de comprensión y seguridad. Aceptas usarlo de forma lícita, subir solo documentos que tienes derecho a subir y aceptar que la salida de Klario es informativa, no consejo profesional. No puedes usar Klario para procesar documentos de terceros sin su consentimiento, ni para dañar, engañar o defraudar a nadie. Las cuentas pueden cerrarse por abuso.",
+    "Klarium se ofrece como un asistente de comprensión y seguridad. Aceptas usarlo de forma lícita, subir solo documentos que tienes derecho a subir y aceptar que la salida de Klarium es informativa, no consejo profesional. No puedes usar Klarium para procesar documentos de terceros sin su consentimiento, ni para dañar, engañar o defraudar a nadie. Las cuentas pueden cerrarse por abuso.",
   legal_disclaimerBody:
-    "Klario te ayuda a entender documentos. No es médico, abogado, contador ni asesor financiero, y su salida no es consejo médico, legal ni financiero. No comiences, detengas ni cambies ningún tratamiento, firmes ningún contrato ni tomes decisiones importantes basándote solo en Klario. Confirma siempre los hallazgos importantes con un profesional cualificado en tu jurisdicción. Klario puede equivocarse — lee su razonamiento, no solo su conclusión.",
+    "Klarium te ayuda a entender documentos. No es médico, abogado, contador ni asesor financiero, y su salida no es consejo médico, legal ni financiero. No comiences, detengas ni cambies ningún tratamiento, firmes ningún contrato ni tomes decisiones importantes basándote solo en Klarium. Confirma siempre los hallazgos importantes con un profesional cualificado en tu jurisdicción. Klarium puede equivocarse — lee su razonamiento, no solo su conclusión.",
   legal_cookie: "Política de cookies",
   legal_cookieBody:
-    "Klario usa un número reducido de cookies esenciales para mantener tu sesión y recordar tu idioma. No usamos cookies de publicidad ni de rastreo entre sitios. Tu elección de idioma se guarda localmente en tu navegador; tu token de sesión es una cookie propia estrictamente necesaria. Puedes borrar todas las cookies desde tu navegador en cualquier momento y Klario seguirá funcionando — solo te pedirá elegir el idioma de nuevo.",
+    "Klarium usa un número reducido de cookies esenciales para mantener tu sesión y recordar tu idioma. No usamos cookies de publicidad ni de rastreo entre sitios. Tu elección de idioma se guarda localmente en tu navegador; tu token de sesión es una cookie propia estrictamente necesaria. Puedes borrar todas las cookies desde tu navegador en cualquier momento y Klarium seguirá funcionando — solo te pedirá elegir el idioma de nuevo.",
   legal_aiTransparency: "Transparencia de la IA",
   legal_aiTransparencyBody:
-    "Klario usa modelos de lenguaje grandes para leer, resumir y explicar tus documentos. Te decimos, en palabras claras, qué hizo el modelo y en qué partes de tu documento se basó. Cada análisis incluye un nivel de confianza y, cuando es relevante, una nota cuando el modelo no está seguro o el texto es ambiguo. No presentamos la salida de la IA como certeza. Cuando Klario no sabe, lo dice. Cuando un hallazgo podría afectar tu salud, tus derechos o tu dinero, te indicamos que lo confirmes con un profesional.",
+    "Klarium usa modelos de lenguaje grandes para leer, resumir y explicar tus documentos. Te decimos, en palabras claras, qué hizo el modelo y en qué partes de tu documento se basó. Cada análisis incluye un nivel de confianza y, cuando es relevante, una nota cuando el modelo no está seguro o el texto es ambiguo. No presentamos la salida de la IA como certeza. Cuando Klarium no sabe, lo dice. Cuando un hallazgo podría afectar tu salud, tus derechos o tu dinero, te indicamos que lo confirmes con un profesional.",
   legal_responsibleAi: "IA responsable",
   legal_responsibleAiBody:
-    "Klario está construido para informar, no para decidir por ti. No construimos funciones que empujen al usuario hacia acciones arriesgadas. Mostramos el razonamiento detrás de cada puntuación de riesgo y de cada veredicto de estafa, para que puedas juzgar tú mismo. Probamos el sesgo contra tipos de documentos e idiomas comunes, y publicamos lo que encontramos con honestidad. No afirmamos perfección — afirmamos honestidad sobre nuestros límites. Si una función mejoraría la belleza pero reduciría la claridad, mantenemos la claridad.",
+    "Klarium está construido para informar, no para decidir por ti. No construimos funciones que empujen al usuario hacia acciones arriesgadas. Mostramos el razonamiento detrás de cada puntuación de riesgo y de cada veredicto de estafa, para que puedas juzgar tú mismo. Probamos el sesgo contra tipos de documentos e idiomas comunes, y publicamos lo que encontramos con honestidad. No afirmamos perfección — afirmamos honestidad sobre nuestros límites. Si una función mejoraría la belleza pero reduciría la claridad, mantenemos la claridad.",
   legal_financial: "Aviso financiero",
   legal_financialBody:
-    "Klario puede leer extractos bancarios, facturas, contratos y documentos financieros y explicar lo que dicen en palabras claras. Su salida no es asesoramiento financiero, de inversión, fiscal ni contable, y no es una recomendación de comprar, vender, mantener ni firmar nada. Klario no es un asesor financiero regulado. No tomes decisiones financieras basándote solo en su salida. Confirma siempre con un profesional autorizado en tu jurisdicción antes de actuar sobre algo que afecte tu dinero.",
+    "Klarium puede leer extractos bancarios, facturas, contratos y documentos financieros y explicar lo que dicen en palabras claras. Su salida no es asesoramiento financiero, de inversión, fiscal ni contable, y no es una recomendación de comprar, vender, mantener ni firmar nada. Klarium no es un asesor financiero regulado. No tomes decisiones financieras basándote solo en su salida. Confirma siempre con un profesional autorizado en tu jurisdicción antes de actuar sobre algo que afecte tu dinero.",
 
   faq_eyebrow: "Centro de confianza",
   faq_title: "Las preguntas que deberías hacer",
   faq_description:
     "Si un servicio no puede responder estas con claridad, no debería tener tus documentos. Aquí están las nuestras, en lenguaje claro.",
-  faq_1_q: "¿Se usan mis datos para entrenar los modelos de Klario?",
+  faq_1_q: "¿Se usan mis datos para entrenar los modelos de Klarium?",
   faq_1_a:
-    "No. Klario nunca usa tus documentos, mensajes o conversaciones para entrenar, ajustar ni evaluar ningún modelo. Se aplica en el código y se establece en nuestros términos.",
+    "No. Klarium nunca usa tus documentos, mensajes o conversaciones para entrenar, ajustar ni evaluar ningún modelo. Se aplica en el código y se establece en nuestros términos.",
   faq_2_q: "¿Qué pasa con mi documento cuando termino?",
   faq_2_a:
     "Cuando cierras la sesión o borras un documento, se elimina de forma inmediata e irreversible. No guardamos copias blandas. También puedes exportar todo lo que has subido en cualquier momento.",
-  faq_3_q: "¿Puede Klario sustituir a mi médico, abogado o contador?",
+  faq_3_q: "¿Puede Klarium sustituir a mi médico, abogado o contador?",
   faq_3_a:
-    "No, y no lo intenta. Klario te ayuda a entender documentos y detectar riesgos antes de hablar con un profesional. A menudo te dirá las preguntas exactas que hacerles. Pero la decisión final es siempre tuya y de tu profesional — no de Klario.",
+    "No, y no lo intenta. Klarium te ayuda a entender documentos y detectar riesgos antes de hablar con un profesional. A menudo te dirá las preguntas exactas que hacerles. Pero la decisión final es siempre tuya y de tu profesional — no de Klarium.",
   faq_4_q: "¿Qué tan precisas son las traducciones?",
   faq_4_a:
-    "Klario razona en el idioma que seleccionaste en lugar de traducir palabra por palabra. La terminología legal, médica y financiera se preserva con su significado profesional correcto. Para idiomas de derecha a izquierda como el árabe y el urdu, toda la interfaz y el análisis cambian de dirección correctamente.",
-  faq_5_q: "¿Klario detecta todas las estafas?",
+    "Klarium razona en el idioma que seleccionaste en lugar de traducir palabra por palabra. La terminología legal, médica y financiera se preserva con su significado profesional correcto. Para idiomas de derecha a izquierda como el árabe y el urdu, toda la interfaz y el análisis cambian de dirección correctamente.",
+  faq_5_q: "¿Klarium detecta todas las estafas?",
   faq_5_a:
-    "Ninguna herramienta puede detectar todas las estafas, y cualquier producto que afirme detección del 100% no está siendo honesto. Klario explica su razonamiento y te muestra exactamente qué parece sospechoso, para que puedas juzgar tú mismo. Si algo te parece mal aunque Klario diga que es seguro, confía en tu instinto y verifica por otro canal.",
-  faq_6_q: "¿Qué pasa si Klario se equivoca?",
+    "Ninguna herramienta puede detectar todas las estafas, y cualquier producto que afirme detección del 100% no está siendo honesto. Klarium explica su razonamiento y te muestra exactamente qué parece sospechoso, para que puedas juzgar tú mismo. Si algo te parece mal aunque Klarium diga que es seguro, confía en tu instinto y verifica por otro canal.",
+  faq_6_q: "¿Qué pasa si Klarium se equivoca?",
   faq_6_a:
-    "Klario puede equivocarse. Por eso cada análisis muestra el texto fuente en el que se basó, indica su nivel de confianza y te dice cuándo un documento es ambiguo. Si detectas un error, repórtalo — usamos esos reportes para mejorar.",
+    "Klarium puede equivocarse. Por eso cada análisis muestra el texto fuente en el que se basó, indica su nivel de confianza y te dice cuándo un documento es ambiguo. Si detectas un error, repórtalo — usamos esos reportes para mejorar.",
 
   cta_badge: "Gratis para probar · sin tarjeta · borra cuando quieras",
   cta_title_1: "Trae un documento.",
   cta_title_2: "Verás por qué la gente deja de adivinar.",
   cta_description:
-    "Sube un informe, pega un mensaje o solo mira. Klario te lo explicará claramente — en tu idioma — y puedes borrar todo cuando termines.",
+    "Sube un informe, pega un mensaje o solo mira. Klarium te lo explicará claramente — en tu idioma — y puedes borrar todo cuando termines.",
   cta_primary: "Empezar a entender",
   cta_secondary: "Lee la política de confianza y legal",
 

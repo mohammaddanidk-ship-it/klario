@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Klario — Understand Anything. Stay Safe. In Your Language.",
+  title: "Klarium — Understand Anything. Stay Safe. In Your Language.",
   description:
-    "Klario is an AI understanding and safety assistant. Upload medical reports, legal notices, bank letters, contracts, or suspicious messages — Klario explains them clearly, in your language, before you decide. Available in 16 languages.",
+    "Klarium is an AI understanding and safety assistant. Upload medical reports, legal notices, bank letters, contracts, or suspicious messages — Klarium explains them clearly, in your language, before you decide. Available in 16 languages.",
   keywords: [
     "AI document understanding",
     "explain medical report",
@@ -29,23 +29,23 @@ export const metadata: Metadata = {
     "scam detector",
     "multilingual AI",
     "understand contracts",
-    "Klario",
+    "Klarium",
   ],
-  authors: [{ name: "Klario" }],
-  metadataBase: new URL("https://klario.ai"),
+  authors: [{ name: "Klarium" }],
+  metadataBase: new URL("https://klarium.ai"),
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Klario — Understand Anything. Stay Safe. In Your Language.",
+    title: "Klarium — Understand Anything. Stay Safe. In Your Language.",
     description:
       "An AI understanding and safety assistant for your most important documents and messages. 16 languages. Privacy-first. Responsible AI.",
-    url: "https://klario.ai",
-    siteName: "Klario",
+    url: "https://klarium.ai",
+    siteName: "Klarium",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Klario — Understand Anything. Stay Safe. In Your Language.",
+    title: "Klarium — Understand Anything. Stay Safe. In Your Language.",
     description:
       "An AI understanding and safety assistant for your most important documents and messages.",
   },

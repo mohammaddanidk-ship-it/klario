@@ -23,7 +23,7 @@ export function FontLoader() {
 
   React.useEffect(() => {
     if (!href) return;
-    const id = `klario-font-${lang}`;
+    const id = `klarium-font-${lang}`;
     if (document.getElementById(id)) return;
     const link = document.createElement("link");
     link.id = id;

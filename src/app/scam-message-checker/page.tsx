@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 import { SEOLanding } from "@/components/seo/landing-template";
 
 export const metadata: Metadata = {
-  title: "Scam Message Checker — Free AI Fraud Detection | Klario",
+  title: "Scam Message Checker — Free AI Fraud Detection | Klarium",
   description: "Check any suspicious text message, WhatsApp message, or DM for signs of fraud. Free instant AI analysis.",
   alternates: { canonical: "/scam-message-checker" },
 };
@@ -13,7 +13,7 @@ export default function Page() {
     <SEOLanding
       eyebrow="Scam Message Checker"
       title="Check any suspicious message before you respond"
-      subtitle="Scam messages don't just come by email anymore — SMS, WhatsApp, and social media DMs are common attack routes too. Klario Shield checks any message for fraud patterns instantly."
+      subtitle="Scam messages don't just come by email anymore — SMS, WhatsApp, and social media DMs are common attack routes too. Klarium Shield checks any message for fraud patterns instantly."
       icon={ShieldCheck}
       problem="Fraudsters increasingly use text messages and messaging apps because people trust them more than email. Fake delivery notices, prize notifications, and impersonated contacts trick thousands of people daily."
       solutionPoints={[

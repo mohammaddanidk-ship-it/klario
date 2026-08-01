@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://klario.tools";
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://klarium.tools";
 
   let dynamic: MetadataRoute.Sitemap = [];
   try {

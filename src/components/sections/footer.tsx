@@ -55,7 +55,7 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-[1.4fr_2.6fr] lg:gap-16">
           {/* Brand + language */}
           <div className="flex flex-col gap-6">
-            <Link href="/" aria-label="Klario home">
+            <Link href="/" aria-label="Klarium home">
               <Logo />
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -105,7 +105,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-14 flex flex-col items-start gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Klario. {t.footer_rights}
+            © {new Date().getFullYear()} Klarium. {t.footer_rights}
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
             <Link href="#legal" className="hover:text-navy hover:dark:text-white">

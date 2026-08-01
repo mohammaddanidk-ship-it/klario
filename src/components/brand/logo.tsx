@@ -7,9 +7,9 @@ interface LogoProps extends React.SVGProps<SVGSVGElement> {
 }
 
 /**
- * Klario brand mark.
+ * Klarium brand mark.
  *
- * A lens / aperture motif — Klario comes from "to clarify". The mark
+ * A lens / aperture motif — Klarium comes from "to clarify". The mark
  * reads as a focused eye: layered arcs converging to a center point,
  * forming both a lens and a stylised "K" aperture. Geometric, calm,
  * trustworthy. Reads cleanly at 16px and 256px.
@@ -26,7 +26,7 @@ export function Logo({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-label="Klario"
+      aria-label="Klarium"
       className={cn("h-8 w-8", className)}
       {...props}
     >
@@ -74,7 +74,7 @@ export function Logo({
           variant === "light" ? "text-white" : "text-navy dark:text-white"
         )}
       >
-        Klario
+        Klarium
       </span>
     </span>
   );

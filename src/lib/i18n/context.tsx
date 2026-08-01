@@ -21,7 +21,7 @@ interface I18nContextValue {
 
 const I18nContext = React.createContext<I18nContextValue | null>(null);
 
-const STORAGE_KEY = "klario-lang";
+const STORAGE_KEY = "klarium-lang";
 
 function getInitialLang(): LanguageCode {
   if (typeof window === "undefined") return DEFAULT_LANGUAGE;

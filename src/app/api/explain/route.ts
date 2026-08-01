@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 
-// One clean slug per document type — no timestamps
 function toSlug(docType: string): string {
   return docType.toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
@@ -11,7 +11,7 @@ function toSlug(docType: string): string {
     .substring(0, 60);
 }
 
-const SYSTEM = (lang: string) => `You are Klario, a trusted document clarity assistant. Explain this document in simple plain language.
+const SYSTEM = (lang: string) => `You are Klarium, a trusted document clarity assistant. Explain this document in simple plain language.
 
 Respond in ${lang} using this exact structure:
 
@@ -24,13 +24,25 @@ Respond in ${lang} using this exact structure:
 **Key things to be aware of:**
 [2–3 bullet points — risks, deadlines, or required actions]
 
-**The bottom line:**
-[One sentence — what should this person do or know]
+**Confidence:**
+[State HIGH, MEDIUM, or LOW, then in one short sentence explain why — e.g. "High — the document text was clear and complete" or "Low — parts of the image were blurry or the text seemed cut off"]
+
+**What should I do next?**
+[1–2 specific, safe, actionable bullet points appropriate to the document type. For medical documents suggest consulting a physician. For legal documents suggest reviewing deadlines or consulting a lawyer for anything significant. For financial documents suggest verifying with the institution. Never give specific legal, medical, or financial advice beyond safe general guidance — always point toward a qualified professional for anything important.]
 
 Write as you would explain to a trusted friend. Respond entirely in ${lang}.`;
 
 export async function POST(req: NextRequest) {
   try {
+    const clientId = getClientIdentifier(req);
+    const { allowed } = checkRateLimit(clientId);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "You've reached the limit of 10 requests per 10 minutes. Please wait a few minutes and try again." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { text, fileData, fileType, language = "English", docType = "document" } = body;
 
@@ -43,7 +55,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Service not configured" }, { status: 503 });
     }
 
-    // Call Claude API
     const sys = SYSTEM(language);
     let messages: any[];
 
@@ -71,7 +82,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 1000,
+        max_tokens: 1200,
         system: fileData ? sys : undefined,
         messages
       })
@@ -80,10 +91,9 @@ export async function POST(req: NextRequest) {
     const data = await res.json();
     const explanation = data?.content?.[0]?.text;
     if (!explanation) {
-      return NextResponse.json({ error: "Failed to generate explanation" }, { status: 500 });
+      return NextResponse.json({ error: "Failed to generate explanation", detail: JSON.stringify(data) }, { status: 500 });
     }
 
-    // ── Smart SEO: one page per docType, update if exists ──────────────────
     const slug = toSlug(docType);
     let savedSlug: string | null = null;
 
@@ -91,34 +101,20 @@ export async function POST(req: NextRequest) {
       const existing = await db.explanation.findUnique({ where: { slug } });
 
       if (existing) {
-        // Page exists — update count and add snippet (max 5 stored)
         const snippets: string[] = JSON.parse(existing.snippets || "[]");
         if (text && text.length > 20) {
           snippets.unshift(text.substring(0, 200));
-          if (snippets.length > 5) snippets.pop(); // keep only 5 snippets
+          if (snippets.length > 5) snippets.pop();
         }
         await db.explanation.update({
           where: { slug },
-          data: {
-            count:       { increment: 1 },
-            explanation, // always update with freshest explanation
-            snippets:    JSON.stringify(snippets),
-            language,
-          }
+          data: { count: { increment: 1 }, explanation, snippets: JSON.stringify(snippets), language }
         });
         savedSlug = existing.slug;
       } else {
-        // New docType — create the page
         const snippets = text ? [text.substring(0, 200)] : [];
         await db.explanation.create({
-          data: {
-            slug,
-            docType,
-            explanation,
-            snippets:   JSON.stringify(snippets),
-            language,
-            isPhishing: false,
-          }
+          data: { slug, docType, explanation, snippets: JSON.stringify(snippets), language, isPhishing: false }
         });
         savedSlug = slug;
       }

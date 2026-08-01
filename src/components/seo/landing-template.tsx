@@ -29,7 +29,7 @@ export function SEOLanding({
           <span style={{ width: 28, height: 28, borderRadius: 7, background: "#0066CC", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1L1.5 3.2V6.5c0 2.8 2.3 4.2 5 5.1 2.7-.9 5-2.3 5-5.1V3.2L6.5 1z" stroke="#fff" strokeWidth="1.3" strokeLinejoin="round"/></svg>
           </span>
-          Klario
+          Klarium
         </Link>
         <Link href={ctaHref} style={{ fontSize: 13, color: "#0066CC", fontWeight: 600 }}>{ctaLabel} →</Link>
       </header>
@@ -51,7 +51,7 @@ export function SEOLanding({
 
         {/* Solution */}
         <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 16 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: "#1E3A8A", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>How Klario helps</p>
+          <p style={{ fontSize: 11, fontWeight: 700, color: "#1E3A8A", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>How Klarium helps</p>
           {solutionPoints.map((p, i) => (
             <div key={i} style={{ display: "flex", gap: 10, marginBottom: 10, alignItems: "flex-start" }}>
               <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#0066CC", flexShrink: 0, marginTop: 9 }}/>

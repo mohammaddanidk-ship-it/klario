@@ -1,7 +1,7 @@
 import type { LanguageCode } from "./config";
 
 /**
- * Translation dictionary for Klario.
+ * Translation dictionary for Klarium.
  *
  * Structure: `t[language][key]` returns the translated string.
  * Missing keys fall back to English (see `useI18n` hook).
@@ -10,7 +10,7 @@ import type { LanguageCode } from "./config";
  *  - Accuracy over word-for-word.
  *  - Professional terminology preserved (legal, medical, financial).
  *  - RTL languages (Arabic, Urdu) include proper Unicode bidi where needed.
- *  - Brand name "Klario" is kept untranslated across all locales.
+ *  - Brand name "Klarium" is kept untranslated across all locales.
  */
 
 export interface Translation {

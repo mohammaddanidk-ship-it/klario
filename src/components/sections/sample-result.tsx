@@ -45,7 +45,7 @@ export function SampleResult() {
               </div>
               <div>
                 <div className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                  Klario · AI Report
+                  Klarium · AI Report
                 </div>
                 <div className="text-sm font-semibold text-navy dark:text-white">
                   blood_test_q3.pdf

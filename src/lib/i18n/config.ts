@@ -1,5 +1,5 @@
 /**
- * Klario — supported languages and RTL configuration.
+ * Klarium — supported languages and RTL configuration.
  * Scalable: add a new language by appending to LANGUAGES and providing
  * translations in `translations.ts`.
  */

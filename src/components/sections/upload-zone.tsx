@@ -75,7 +75,11 @@ export function UploadZone() {
   const [language,  setLanguage]  = React.useState("English");
   const [result,    setResult]    = React.useState<Result | null>(null);
   const [open,      setOpen]      = React.useState(false);
+  const [feedback,  setFeedback]  = React.useState<"yes" | "no" | null>(null);
   const [errorMsg,  setErrorMsg]  = React.useState("");
+  const [followUpQ, setFollowUpQ] = React.useState("");
+  const [followUpA, setFollowUpA] = React.useState<string[]>([]);
+  const [followUpLoading, setFollowUpLoading] = React.useState(false);
 
   const fileRef    = React.useRef<HTMLInputElement>(null);
   const dropRef    = React.useRef<HTMLDivElement>(null);
@@ -156,6 +160,27 @@ export function UploadZone() {
     }
   }, [selected, isPhishingMode, pasteText, language, FILE_TYPES]);
 
+  const askFollowUp = React.useCallback(async () => {
+    if (!followUpQ.trim() || !result?.explanation || followUpLoading) return;
+    const question = followUpQ.trim();
+    setFollowUpLoading(true);
+    setFollowUpQ("");
+    try {
+      const res = await fetch("/api/followup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ originalExplanation: result.explanation, question, language }),
+      });
+      const data = await res.json();
+      const answer = data.answer ?? "Sorry, I couldn't answer that. Please try rephrasing your question.";
+      setFollowUpA(prev => [...prev, `Q: ${question}`, answer]);
+    } catch {
+      setFollowUpA(prev => [...prev, `Q: ${question}`, "Connection error. Please try again."]);
+    } finally {
+      setFollowUpLoading(false);
+    }
+  }, [followUpQ, result, language, followUpLoading]);
+
   /* ── Handlers ─────────────────────────────────────────────────────────── */
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -181,6 +206,9 @@ export function UploadZone() {
     setStatus("idle");
     setErrorMsg("");
     setPasteText("");
+    setFeedback(null);
+    setFollowUpQ("");
+    setFollowUpA([]);
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -439,7 +467,7 @@ export function UploadZone() {
                   : <CheckCircle2 style={{ width: 13, height: 13, color: "#fff" }}/>
                 }
               </span>
-              {result?.isPhishing ? "Klario Shield — Fraud Analysis" : "Klario — Document Explanation"}
+              {result?.isPhishing ? "Klarium Shield — Fraud Analysis" : "Klarium — Document Explanation"}
             </DialogTitle>
             {!result?.isPhishing && (
               <DialogDescription className="text-xs">Explained in {language}</DialogDescription>
@@ -503,6 +531,73 @@ export function UploadZone() {
                   </a>
                 </div>
               )}
+
+              {/* Follow-up question */}
+              <div style={{ marginTop: 14, padding: "14px 16px", borderRadius: 10, background: "#F9FAFB", border: "1px solid #E5E7EB" }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 }}>
+                  Ask a follow-up question
+                </p>
+                {followUpA.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 10, maxHeight: 200, overflowY: "auto" }}>
+                    {followUpA.map((line, i) => (
+                      <p key={i} style={{
+                        fontSize: 13, lineHeight: 1.55,
+                        color: line.startsWith("Q:") ? "#374151" : "#1D1D1F",
+                        fontWeight: line.startsWith("Q:") ? 600 : 400,
+                        padding: line.startsWith("Q:") ? "0" : "0 0 6px 0",
+                      }}>
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                <div style={{ display: "flex", gap: 6 }}>
+                  <input
+                    type="text"
+                    value={followUpQ}
+                    onChange={e => setFollowUpQ(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") askFollowUp(); }}
+                    placeholder="e.g. What does this deadline mean for me?"
+                    disabled={followUpLoading}
+                    style={{ flex: 1, padding: "8px 12px", borderRadius: 7, border: "1px solid #D1D5DB", fontSize: 13, outline: "none" }}
+                  />
+                  <button
+                    onClick={askFollowUp}
+                    disabled={followUpLoading || !followUpQ.trim()}
+                    style={{
+                      padding: "8px 16px", borderRadius: 7, border: "none",
+                      background: followUpLoading || !followUpQ.trim() ? "#D1D5DB" : accent,
+                      color: "#fff", fontSize: 13, fontWeight: 600,
+                      cursor: followUpLoading || !followUpQ.trim() ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {followUpLoading ? "…" : "Ask"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Feedback widget */}
+              <div style={{ marginTop: 14, padding: "12px 14px", borderRadius: 8, background: "#F9FAFB", border: "1px solid #E5E7EB", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+                {feedback === null ? (
+                  <>
+                    <p style={{ fontSize: 12, color: "#374151", fontWeight: 500 }}>Was this explanation helpful?</p>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <button onClick={() => setFeedback("yes")}
+                        style={{ padding: "5px 14px", borderRadius: 6, border: "1px solid #D1D5DB", background: "#fff", fontSize: 12, fontWeight: 600, color: "#374151", cursor: "pointer" }}>
+                        👍 Yes
+                      </button>
+                      <button onClick={() => setFeedback("no")}
+                        style={{ padding: "5px 14px", borderRadius: 6, border: "1px solid #D1D5DB", background: "#fff", fontSize: 12, fontWeight: 600, color: "#374151", cursor: "pointer" }}>
+                        👎 No
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <p style={{ fontSize: 12, color: "#15803D", fontWeight: 600 }}>
+                    {feedback === "yes" ? "✓ Thanks for your feedback!" : "✓ Thanks — we'll keep improving."}
+                  </p>
+                )}
+              </div>
 
               <div className="mt-4 flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => { setOpen(false); handleReset(); }}>
