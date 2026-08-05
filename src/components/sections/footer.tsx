@@ -108,6 +108,12 @@ export function Footer() {
             © {new Date().getFullYear()} Klarium. {t.footer_rights}
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
+            <Link href="/example-library" className="hover:text-navy hover:dark:text-white">
+              Example Library
+            </Link>
+            <Link href="/trust-center" className="hover:text-navy hover:dark:text-white">
+              Trust Center
+            </Link>
             <Link href="#legal" className="hover:text-navy hover:dark:text-white">
               {t.legal_privacy}
             </Link>

@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -25,4 +26,19 @@ model Explanation {
   @@index([docType])
   @@index([isPhishing])
   @@index([views])
+}
+
+model UsageLog {
+  id           String   @id @default(cuid())
+  endpoint     String   // "explain" | "shield" | "followup"
+  success      Boolean  @default(true)
+  inputTokens  Int      @default(0)
+  outputTokens Int      @default(0)
+  estimatedCostCents Float @default(0)
+  errorMessage String?
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([success])
+  @@index([endpoint])
 }

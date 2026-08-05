@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 
 /* ── Types ───────────────────────────────────────────────────────────────── */
-type Status = "idle" | "uploading" | "done" | "error";
+type Status = "idle" | "uploading" | "done" | "error" | "maintenance";
 type InputMode = "file" | "text";
 
 interface FileType { label: string; icon: LucideIcon; hint: string; isPhishing?: boolean; }
@@ -75,7 +75,55 @@ export function UploadZone() {
   const [language,  setLanguage]  = React.useState("English");
   const [result,    setResult]    = React.useState<Result | null>(null);
   const [open,      setOpen]      = React.useState(false);
+  const [feedback,  setFeedback]  = React.useState<"yes" | "no" | null>(null);
   const [errorMsg,  setErrorMsg]  = React.useState("");
+  const [followUpQ, setFollowUpQ] = React.useState("");
+  const [followUpA, setFollowUpA] = React.useState<string[]>([]);
+  const [followUpLoading, setFollowUpLoading] = React.useState(false);
+
+  const positiveMessages = React.useRef([
+    "✓ Glad it helped!",
+    "✓ Thanks for letting us know!",
+    "✓ Great — that's what we're here for.",
+    "✓ Appreciate the feedback!",
+  ]);
+  const negativeMessages = React.useRef([
+    "✓ Thanks — we'll keep improving.",
+    "✓ Noted. We're working to get better.",
+    "✓ Thanks for the honesty — it helps us improve.",
+  ]);
+  const [feedbackMsg] = React.useState(() => ({
+    yes: positiveMessages.current[Math.floor(Math.random() * positiveMessages.current.length)],
+    no:  negativeMessages.current[Math.floor(Math.random() * negativeMessages.current.length)],
+  }));
+
+  const CLARITY_STAGES = [
+    "Uploading file",
+    "Reading document",
+    "Detecting language",
+    "Understanding content",
+    "Identifying risks",
+    "Generating report",
+    "Final review",
+  ];
+  const SHIELD_STAGES = [
+    "Uploading message",
+    "Reading content",
+    "Checking known fraud patterns",
+    "Analysing links & language",
+    "Generating verdict",
+    "Final review",
+  ];
+  const [stageIndex, setStageIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    if (status !== "uploading") { setStageIndex(0); return; }
+    const stages = isPhishingMode ? SHIELD_STAGES : CLARITY_STAGES;
+    const interval = setInterval(() => {
+      setStageIndex(prev => (prev < stages.length - 1 ? prev + 1 : prev));
+    }, 900);
+    return () => clearInterval(interval);
+  }, [status, isPhishingMode]);
 
   const fileRef    = React.useRef<HTMLInputElement>(null);
   const dropRef    = React.useRef<HTMLDivElement>(null);
@@ -118,7 +166,29 @@ export function UploadZone() {
           return;
         }
         const b64 = await readAsBase64(file);
-        payload = { fileData: b64, fileType: file.type, docType, language };
+
+        // OCR fallback — only for images (not PDFs), only in document clarity mode.
+        // Extracts text locally, free, before sending anything to the paid API.
+        // If OCR produces usable text, we send that instead of the image (cheaper).
+        // If OCR fails or the result is too short/garbled, we fall back to the image as before.
+        const isImage = file.type.startsWith("image/");
+        if (isImage && !isPhishingMode) {
+          try {
+            const { default: Tesseract } = await import("tesseract.js");
+            const { data } = await Tesseract.recognize(file, "eng");
+            const extractedText = data.text?.trim() ?? "";
+            if (extractedText.length >= 30) {
+              payload = { text: extractedText, docType, language };
+            } else {
+              payload = { fileData: b64, fileType: file.type, docType, language };
+            }
+          } catch {
+            // OCR failed silently — fall back to sending the image directly
+            payload = { fileData: b64, fileType: file.type, docType, language };
+          }
+        } else {
+          payload = { fileData: b64, fileType: file.type, docType, language };
+        }
       } else if (pasteText.trim().length >= 10) {
         payload = { text: pasteText, docType, language };
       } else {
@@ -135,8 +205,13 @@ export function UploadZone() {
       const data = await res.json();
 
       if (!res.ok || data.error) {
-        setErrorMsg(data.error ?? "Something went wrong. Please try again.");
-        setStatus("error");
+        if (data.maintenance) {
+          setErrorMsg(data.error ?? "Klarium is temporarily undergoing scheduled maintenance.");
+          setStatus("maintenance");
+        } else {
+          setErrorMsg(data.error ?? "Something went wrong. Please try again.");
+          setStatus("error");
+        }
         return;
       }
 
@@ -155,6 +230,27 @@ export function UploadZone() {
       setStatus("error");
     }
   }, [selected, isPhishingMode, pasteText, language, FILE_TYPES]);
+
+  const askFollowUp = React.useCallback(async () => {
+    if (!followUpQ.trim() || !result?.explanation || followUpLoading) return;
+    const question = followUpQ.trim();
+    setFollowUpLoading(true);
+    setFollowUpQ("");
+    try {
+      const res = await fetch("/api/followup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ originalExplanation: result.explanation, question, language }),
+      });
+      const data = await res.json();
+      const answer = data.answer ?? "Sorry, I couldn't answer that. Please try rephrasing your question.";
+      setFollowUpA(prev => [...prev, `Q: ${question}`, answer]);
+    } catch {
+      setFollowUpA(prev => [...prev, `Q: ${question}`, "Connection error. Please try again."]);
+    } finally {
+      setFollowUpLoading(false);
+    }
+  }, [followUpQ, result, language, followUpLoading]);
 
   /* ── Handlers ─────────────────────────────────────────────────────────── */
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,6 +277,9 @@ export function UploadZone() {
     setStatus("idle");
     setErrorMsg("");
     setPasteText("");
+    setFeedback(null);
+    setFollowUpQ("");
+    setFollowUpA([]);
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -282,9 +381,10 @@ export function UploadZone() {
                 onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleClick(); } }}
                 className={cn(
                   "relative flex min-h-[340px] flex-col items-center justify-center gap-5 rounded-xl border-2 border-dashed p-8 text-center transition-colors cursor-pointer sm:min-h-[420px]",
-                  status === "done"      ? "border-success/50 bg-success/5"
-                  : status === "error"   ? "border-destructive/50 bg-destructive/5"
-                  : dragging             ? "border-brand bg-brand/5"
+                  status === "done"        ? "border-success/50 bg-success/5"
+                  : status === "error"     ? "border-destructive/50 bg-destructive/5"
+                  : status === "maintenance" ? "border-border bg-muted/40"
+                  : dragging               ? "border-brand bg-brand/5"
                   : "border-border bg-muted/30 hover:border-brand/50 hover:bg-brand/5"
                 )}
               >
@@ -292,14 +392,36 @@ export function UploadZone() {
                   {/* Uploading */}
                   {status === "uploading" && (
                     <motion.div key="uploading" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
-                      className="flex flex-col items-center gap-4">
+                      className="flex flex-col items-center gap-4 w-full max-w-[280px]">
                       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-navy text-white dark:bg-white dark:text-navy">
                         <Loader2 className="h-7 w-7 animate-spin"/>
                       </div>
-                      <p className="text-base font-semibold text-navy dark:text-white">
-                        {isPhishingMode ? "Checking for fraud…" : "Analysing your document…"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">Processing privately · never stored</p>
+                      <div className="flex flex-col gap-1.5 w-full">
+                        {(isPhishingMode ? SHIELD_STAGES : CLARITY_STAGES).map((stage, i) => (
+                          <div key={stage} className="flex items-center gap-2.5">
+                            <span className={cn(
+                              "flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold transition-colors",
+                              i < stageIndex ? "bg-success text-white" : i === stageIndex ? "bg-brand text-white" : "bg-muted text-muted-foreground"
+                            )}>
+                              {i < stageIndex ? "✓" : i === stageIndex ? "" : ""}
+                            </span>
+                            <span className={cn(
+                              "text-xs transition-colors",
+                              i <= stageIndex ? "text-navy dark:text-white font-medium" : "text-muted-foreground/50"
+                            )}>
+                              {stage}
+                            </span>
+                            {i === stageIndex && (
+                              <span className="ml-auto flex gap-0.5">
+                                <span className="h-1 w-1 rounded-full bg-brand animate-bounce" style={{ animationDelay: "0ms" }}/>
+                                <span className="h-1 w-1 rounded-full bg-brand animate-bounce" style={{ animationDelay: "150ms" }}/>
+                                <span className="h-1 w-1 rounded-full bg-brand animate-bounce" style={{ animationDelay: "300ms" }}/>
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-muted-foreground">Processing privately · never stored</p>
                     </motion.div>
                   )}
 
@@ -320,6 +442,27 @@ export function UploadZone() {
                         className="text-xs text-muted-foreground underline underline-offset-2">
                         Analyse another
                       </button>
+                    </motion.div>
+                  )}
+
+                  {/* Maintenance — shown when service is temporarily unavailable (e.g. credit/billing issue) */}
+                  {status === "maintenance" && (
+                    <motion.div key="maintenance" initial={{opacity:0}} animate={{opacity:1}}
+                      className="flex flex-col items-center gap-4 text-center px-2">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-navy text-white dark:bg-white dark:text-navy">
+                        <ShieldCheck className="h-7 w-7"/>
+                      </div>
+                      <div>
+                        <p className="text-base font-semibold text-navy dark:text-white">We'll be right back</p>
+                        <p className="mt-2 max-w-[300px] text-sm text-muted-foreground leading-relaxed">{errorMsg}</p>
+                      </div>
+                      <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1.5 text-xs font-medium text-muted-foreground">
+                        <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse"/>
+                        Service temporarily paused
+                      </div>
+                      <Button size="sm" variant="outline" onClick={e => { e.stopPropagation(); handleReset(); }}>
+                        Check again
+                      </Button>
                     </motion.div>
                   )}
 
@@ -381,6 +524,7 @@ export function UploadZone() {
                   return (
                     <li key={ft.label}>
                       <button type="button"
+                        onMouseEnter={() => setSelected(i)}
                         onFocus={() => setSelected(i)}
                         onClick={() => setSelected(i)}
                         aria-pressed={active}
@@ -438,7 +582,7 @@ export function UploadZone() {
                   : <CheckCircle2 style={{ width: 13, height: 13, color: "#fff" }}/>
                 }
               </span>
-              {result?.isPhishing ? "Klario Shield — Fraud Analysis" : "Klario — Document Explanation"}
+              {result?.isPhishing ? "Klarium Shield — Fraud Analysis" : "Klarium — Document Explanation"}
             </DialogTitle>
             {!result?.isPhishing && (
               <DialogDescription className="text-xs">Explained in {language}</DialogDescription>
@@ -502,6 +646,73 @@ export function UploadZone() {
                   </a>
                 </div>
               )}
+
+              {/* Follow-up question */}
+              <div style={{ marginTop: 14, padding: "14px 16px", borderRadius: 10, background: "#F9FAFB", border: "1px solid #E5E7EB" }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 }}>
+                  Ask a follow-up question
+                </p>
+                {followUpA.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 10, maxHeight: 200, overflowY: "auto" }}>
+                    {followUpA.map((line, i) => (
+                      <p key={i} style={{
+                        fontSize: 13, lineHeight: 1.55,
+                        color: line.startsWith("Q:") ? "#374151" : "#1D1D1F",
+                        fontWeight: line.startsWith("Q:") ? 600 : 400,
+                        padding: line.startsWith("Q:") ? "0" : "0 0 6px 0",
+                      }}>
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                <div style={{ display: "flex", gap: 6 }}>
+                  <input
+                    type="text"
+                    value={followUpQ}
+                    onChange={e => setFollowUpQ(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") askFollowUp(); }}
+                    placeholder="e.g. What does this deadline mean for me?"
+                    disabled={followUpLoading}
+                    style={{ flex: 1, padding: "8px 12px", borderRadius: 7, border: "1px solid #D1D5DB", fontSize: 13, outline: "none" }}
+                  />
+                  <button
+                    onClick={askFollowUp}
+                    disabled={followUpLoading || !followUpQ.trim()}
+                    style={{
+                      padding: "8px 16px", borderRadius: 7, border: "none",
+                      background: followUpLoading || !followUpQ.trim() ? "#D1D5DB" : accent,
+                      color: "#fff", fontSize: 13, fontWeight: 600,
+                      cursor: followUpLoading || !followUpQ.trim() ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {followUpLoading ? "…" : "Ask"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Feedback widget */}
+              <div style={{ marginTop: 14, padding: "12px 14px", borderRadius: 8, background: "#F9FAFB", border: "1px solid #E5E7EB", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+                {feedback === null ? (
+                  <>
+                    <p style={{ fontSize: 12, color: "#374151", fontWeight: 500 }}>Was this explanation helpful?</p>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <button onClick={() => setFeedback("yes")}
+                        style={{ padding: "5px 14px", borderRadius: 6, border: "1px solid #D1D5DB", background: "#fff", fontSize: 12, fontWeight: 600, color: "#374151", cursor: "pointer" }}>
+                        👍 Yes
+                      </button>
+                      <button onClick={() => setFeedback("no")}
+                        style={{ padding: "5px 14px", borderRadius: 6, border: "1px solid #D1D5DB", background: "#fff", fontSize: 12, fontWeight: 600, color: "#374151", cursor: "pointer" }}>
+                        👎 No
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <p style={{ fontSize: 12, color: "#15803D", fontWeight: 600 }}>
+                    {feedback === "yes" ? feedbackMsg.yes : feedbackMsg.no}
+                  </p>
+                )}
+              </div>
 
               <div className="mt-4 flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => { setOpen(false); handleReset(); }}>
