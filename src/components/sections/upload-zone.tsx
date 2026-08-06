@@ -97,6 +97,23 @@ export function UploadZone() {
     no:  negativeMessages.current[Math.floor(Math.random() * negativeMessages.current.length)],
   }));
 
+  const fileRef    = React.useRef<HTMLInputElement>(null);
+  const dropRef    = React.useRef<HTMLDivElement>(null);
+
+  const FILE_TYPES: FileType[] = [
+    { label: t.up_type_medical,    icon: HeartPulse,    hint: t.up_hint_medical    },
+    { label: t.up_type_legal,      icon: Scale,         hint: t.up_hint_legal      },
+    { label: t.up_type_gov,        icon: Landmark,      hint: t.up_hint_gov        },
+    { label: t.up_type_bank,       icon: Landmark,      hint: t.up_hint_bank       },
+    { label: t.up_type_financial,  icon: Receipt,       hint: t.up_hint_financial  },
+    { label: t.up_type_contract,   icon: FileSignature, hint: t.up_hint_contract   },
+    { label: t.up_type_invoice,    icon: FileText,      hint: t.up_hint_invoice    },
+    { label: t.up_type_email,      icon: Mail,          hint: t.up_hint_email,     isPhishing: true },
+    { label: t.up_type_suspicious, icon: ImageIcon,     hint: t.up_hint_suspicious,isPhishing: true },
+  ];
+
+  const isPhishingMode = selected !== null && FILE_TYPES[selected]?.isPhishing;
+
   const CLARITY_STAGES = [
     "Uploading file",
     "Reading document",
@@ -124,23 +141,6 @@ export function UploadZone() {
     }, 900);
     return () => clearInterval(interval);
   }, [status, isPhishingMode]);
-
-  const fileRef    = React.useRef<HTMLInputElement>(null);
-  const dropRef    = React.useRef<HTMLDivElement>(null);
-
-  const FILE_TYPES: FileType[] = [
-    { label: t.up_type_medical,    icon: HeartPulse,    hint: t.up_hint_medical    },
-    { label: t.up_type_legal,      icon: Scale,         hint: t.up_hint_legal      },
-    { label: t.up_type_gov,        icon: Landmark,      hint: t.up_hint_gov        },
-    { label: t.up_type_bank,       icon: Landmark,      hint: t.up_hint_bank       },
-    { label: t.up_type_financial,  icon: Receipt,       hint: t.up_hint_financial  },
-    { label: t.up_type_contract,   icon: FileSignature, hint: t.up_hint_contract   },
-    { label: t.up_type_invoice,    icon: FileText,      hint: t.up_hint_invoice    },
-    { label: t.up_type_email,      icon: Mail,          hint: t.up_hint_email,     isPhishing: true },
-    { label: t.up_type_suspicious, icon: ImageIcon,     hint: t.up_hint_suspicious,isPhishing: true },
-  ];
-
-  const isPhishingMode = selected !== null && FILE_TYPES[selected]?.isPhishing;
 
   /* ── Analyse function ─────────────────────────────────────────────────── */
   const analyse = React.useCallback(async (file?: File) => {
