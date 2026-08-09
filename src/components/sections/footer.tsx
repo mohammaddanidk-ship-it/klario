@@ -30,21 +30,11 @@ export function Footer() {
       ],
     },
     {
-      title: t.footer_company,
+      title: "Explore",
       links: [
-        { label: t.footer_company_1, href: "#" },
-        { label: t.footer_company_2, href: "#" },
-        { label: t.footer_company_3, href: "#" },
-        { label: t.footer_company_4, href: "#" },
-      ],
-    },
-    {
-      title: t.footer_resources,
-      links: [
-        { label: t.footer_resources_1, href: "#" },
-        { label: t.footer_resources_2, href: "#" },
-        { label: t.footer_resources_3, href: "#" },
-        { label: t.footer_resources_4, href: "#" },
+        { label: "Example Library", href: "/example-library" },
+        { label: "Trust Center", href: "/trust-center" },
+        { label: "Get Started", href: "#upload" },
       ],
     },
   ];
@@ -79,7 +69,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {columns.map((col) => (
               <div key={col.title}>
                 <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-navy dark:text-white">
@@ -108,12 +98,6 @@ export function Footer() {
             © {new Date().getFullYear()} Klarium. {t.footer_rights}
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
-            <Link href="/example-library" className="hover:text-navy hover:dark:text-white">
-              Example Library
-            </Link>
-            <Link href="/trust-center" className="hover:text-navy hover:dark:text-white">
-              Trust Center
-            </Link>
             <Link href="#legal" className="hover:text-navy hover:dark:text-white">
               {t.legal_privacy}
             </Link>
