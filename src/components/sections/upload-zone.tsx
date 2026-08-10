@@ -78,7 +78,7 @@ export function UploadZone() {
   const [feedback,  setFeedback]  = React.useState<"yes" | "no" | null>(null);
   const [errorMsg,  setErrorMsg]  = React.useState("");
   const [followUpQ, setFollowUpQ] = React.useState("");
-  const [followUpA, setFollowUpA] = React.useState<string[]>([]);
+  const [chatMessages, setChatMessages] = React.useState<{ role: "user" | "assistant"; text: string }[]>([]);
   const [followUpLoading, setFollowUpLoading] = React.useState(false);
 
   const positiveMessages = React.useRef([
@@ -166,29 +166,8 @@ export function UploadZone() {
           return;
         }
         const b64 = await readAsBase64(file);
-
-        // OCR fallback — only for images (not PDFs), only in document clarity mode.
-        // Extracts text locally, free, before sending anything to the paid API.
-        // If OCR produces usable text, we send that instead of the image (cheaper).
-        // If OCR fails or the result is too short/garbled, we fall back to the image as before.
-        const isImage = file.type.startsWith("image/");
-        if (isImage && !isPhishingMode) {
-          try {
-            const { default: Tesseract } = await import("tesseract.js");
-            const { data } = await Tesseract.recognize(file, "eng");
-            const extractedText = data.text?.trim() ?? "";
-            if (extractedText.length >= 30) {
-              payload = { text: extractedText, docType, language };
-            } else {
-              payload = { fileData: b64, fileType: file.type, docType, language };
-            }
-          } catch {
-            // OCR failed silently — fall back to sending the image directly
-            payload = { fileData: b64, fileType: file.type, docType, language };
-          }
-        } else {
-          payload = { fileData: b64, fileType: file.type, docType, language };
-        }
+        // Gemini reads images and PDFs natively — send directly, no OCR pre-processing needed
+        payload = { fileData: b64, fileType: file.type, docType, language };
       } else if (pasteText.trim().length >= 10) {
         payload = { text: pasteText, docType, language };
       } else {
@@ -234,23 +213,30 @@ export function UploadZone() {
   const askFollowUp = React.useCallback(async () => {
     if (!followUpQ.trim() || !result?.explanation || followUpLoading) return;
     const question = followUpQ.trim();
+    const historySnapshot = chatMessages; // send prior turns for real context
+    setChatMessages(prev => [...prev, { role: "user", text: question }]);
     setFollowUpLoading(true);
     setFollowUpQ("");
     try {
       const res = await fetch("/api/followup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ originalExplanation: result.explanation, question, language }),
+        body: JSON.stringify({
+          originalExplanation: result.explanation,
+          history: historySnapshot,
+          question,
+          language,
+        }),
       });
       const data = await res.json();
       const answer = data.answer ?? "Sorry, I couldn't answer that. Please try rephrasing your question.";
-      setFollowUpA(prev => [...prev, `Q: ${question}`, answer]);
+      setChatMessages(prev => [...prev, { role: "assistant", text: answer }]);
     } catch {
-      setFollowUpA(prev => [...prev, `Q: ${question}`, "Connection error. Please try again."]);
+      setChatMessages(prev => [...prev, { role: "assistant", text: "Connection error. Please try again." }]);
     } finally {
       setFollowUpLoading(false);
     }
-  }, [followUpQ, result, language, followUpLoading]);
+  }, [followUpQ, result, language, followUpLoading, chatMessages]);
 
   /* ── Handlers ─────────────────────────────────────────────────────────── */
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -279,7 +265,7 @@ export function UploadZone() {
     setPasteText("");
     setFeedback(null);
     setFollowUpQ("");
-    setFollowUpA([]);
+    setChatMessages([]);
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -647,23 +633,36 @@ export function UploadZone() {
                 </div>
               )}
 
-              {/* Follow-up question */}
+              {/* Chat — ask follow-up questions about this document */}
               <div style={{ marginTop: 14, padding: "14px 16px", borderRadius: 10, background: "#F9FAFB", border: "1px solid #E5E7EB" }}>
                 <p style={{ fontSize: 11, fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 }}>
-                  Ask a follow-up question
+                  💬 Chat about this document
                 </p>
-                {followUpA.length > 0 && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 10, maxHeight: 200, overflowY: "auto" }}>
-                    {followUpA.map((line, i) => (
-                      <p key={i} style={{
-                        fontSize: 13, lineHeight: 1.55,
-                        color: line.startsWith("Q:") ? "#374151" : "#1D1D1F",
-                        fontWeight: line.startsWith("Q:") ? 600 : 400,
-                        padding: line.startsWith("Q:") ? "0" : "0 0 6px 0",
-                      }}>
-                        {line}
-                      </p>
+                {chatMessages.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 10, maxHeight: 260, overflowY: "auto" }}>
+                    {chatMessages.map((m, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+                        <div style={{
+                          maxWidth: "80%",
+                          padding: "8px 12px",
+                          borderRadius: m.role === "user" ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
+                          background: m.role === "user" ? accent : "#fff",
+                          color: m.role === "user" ? "#fff" : "#1D1D1F",
+                          border: m.role === "user" ? "none" : "1px solid #E5E7EB",
+                          fontSize: 13,
+                          lineHeight: 1.5,
+                        }}>
+                          {m.text}
+                        </div>
+                      </div>
                     ))}
+                    {followUpLoading && (
+                      <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                        <div style={{ padding: "8px 12px", borderRadius: "12px 12px 12px 2px", background: "#fff", border: "1px solid #E5E7EB", fontSize: 13, color: "#9CA3AF" }}>
+                          Typing…
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
                 <div style={{ display: "flex", gap: 6 }}>
@@ -672,7 +671,7 @@ export function UploadZone() {
                     value={followUpQ}
                     onChange={e => setFollowUpQ(e.target.value)}
                     onKeyDown={e => { if (e.key === "Enter") askFollowUp(); }}
-                    placeholder="e.g. What does this deadline mean for me?"
+                    placeholder={chatMessages.length === 0 ? "e.g. What does this deadline mean for me?" : "Ask another question…"}
                     disabled={followUpLoading}
                     style={{ flex: 1, padding: "8px 12px", borderRadius: 7, border: "1px solid #D1D5DB", fontSize: 13, outline: "none" }}
                   />

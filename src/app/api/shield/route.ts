@@ -60,87 +60,57 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const key = process.env.ANTHROPIC_API_KEY;
+    const key = process.env.GEMINI_API_KEY;
     if (!key) {
       return NextResponse.json({ error: "Service not configured" }, { status: 503 });
     }
 
-    let messages: any[];
+    const parts: any[] = [];
     if (fileData && fileType) {
-      messages = [{
-        role: "user",
-        content: [
-          { type: "image", source: { type: "base64", media_type: fileType, data: fileData } },
-          { type: "text", text: "Analyse this message or screenshot for phishing and fraud." }
-        ]
-      }];
+      parts.push({ inline_data: { mime_type: fileType, data: fileData } });
+      parts.push({ text: `${SYSTEM}\n\nAnalyse this message or screenshot for phishing and fraud.` });
     } else {
-      messages = [{ role: "user", content: `${SYSTEM}\n\nMessage:\n${text}` }];
+      parts.push({ text: `${SYSTEM}\n\nMessage:\n${text}` });
     }
 
     let res: Response;
     try {
-      res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": key,
-          "anthropic-version": "2023-06-01"
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-5",
-          max_tokens: 1200,
-          system: fileData ? SYSTEM : undefined,
-          messages
-        })
-      });
+      res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts }],
+            generationConfig: { maxOutputTokens: 1200 },
+          }),
+        }
+      );
     } catch {
       await logUsage({ endpoint: "shield", success: false, errorMessage: "Network error reaching AI service" });
-      return NextResponse.json(
-        { error: "Our AI service is temporarily unreachable. Please try again in a moment." },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: "Our AI service is temporarily unreachable. Please try again in a moment." }, { status: 503 });
     }
 
     const data = await res.json();
-    const result = data?.content?.[0]?.text;
-    const usage = data?.usage;
+    const result = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const usageMeta = data?.usageMetadata;
 
     if (!result) {
-      await logUsage({
-        endpoint: "shield",
-        success: false,
-        errorMessage: data?.error?.message ?? "No result returned",
-      });
+      await logUsage({ endpoint: "shield", success: false, errorMessage: data?.error?.message ?? "No result returned" });
 
-      const errorType = data?.error?.type ?? "";
       const errorMsg = (data?.error?.message ?? "").toLowerCase();
-      const isCreditIssue =
-        res.status === 401 ||
-        res.status === 403 ||
-        errorType === "authentication_error" ||
-        errorType === "permission_error" ||
-        errorMsg.includes("credit") ||
-        errorMsg.includes("billing") ||
-        errorMsg.includes("insufficient");
-      const isOverloaded = res.status === 529 || res.status === 503 || res.status === 429;
+      const isCreditIssue = res.status === 401 || res.status === 403 || errorMsg.includes("api key") || errorMsg.includes("permission") || errorMsg.includes("quota");
+      const isOverloaded = res.status === 429 || res.status === 503;
 
       if (isCreditIssue) {
         return NextResponse.json(
-          {
-            error: "Klarium is temporarily undergoing scheduled maintenance. We'll be back online shortly — thank you for your patience.",
-            maintenance: true,
-          },
+          { error: "Klarium is temporarily undergoing scheduled maintenance. We'll be back online shortly — thank you for your patience.", maintenance: true },
           { status: 503 }
         );
       }
 
       return NextResponse.json(
-        {
-          error: isOverloaded
-            ? "Our AI service is experiencing high demand right now. Please try again in a minute."
-            : "Failed to analyse message. Please try again.",
-        },
+        { error: isOverloaded ? "Our AI service is experiencing high demand right now. Please try again in a minute." : "Failed to analyse message. Please try again." },
         { status: 500 }
       );
     }
@@ -148,8 +118,8 @@ export async function POST(req: NextRequest) {
     await logUsage({
       endpoint: "shield",
       success: true,
-      inputTokens: usage?.input_tokens ?? 0,
-      outputTokens: usage?.output_tokens ?? 0,
+      inputTokens: usageMeta?.promptTokenCount ?? 0,
+      outputTokens: usageMeta?.candidatesTokenCount ?? 0,
     });
 
     const verdict    = result.includes("VERDICT: SCAM") ? "SCAM" : result.includes("VERDICT: LEGITIMATE") ? "LEGITIMATE" : "UNKNOWN";

@@ -17,12 +17,14 @@ export async function GET(req: NextRequest) {
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [allLogs, todayLogs, monthLogs, totalExplanations, totalPhishingChecks] = await Promise.all([
+    const [allLogs, todayLogs, monthLogs, totalExplanations, totalPhishingChecks, openComplaints, recentComplaints] = await Promise.all([
       db.usageLog.findMany({ orderBy: { createdAt: "desc" }, take: 500 }),
       db.usageLog.findMany({ where: { createdAt: { gte: startOfToday } } }),
       db.usageLog.findMany({ where: { createdAt: { gte: startOfMonth } } }),
       db.explanation.count({ where: { isPhishing: false } }),
       db.explanation.count({ where: { isPhishing: true } }),
+      db.complaint.count({ where: { status: "open" } }),
+      db.complaint.findMany({ orderBy: { createdAt: "desc" }, take: 20 }),
     ]);
 
     const sumCost = (logs: typeof allLogs) => logs.reduce((sum, l) => sum + l.estimatedCostCents, 0);
@@ -47,6 +49,17 @@ export async function GET(req: NextRequest) {
       totals: {
         explanations: totalExplanations,
         phishingChecks: totalPhishingChecks,
+      },
+      complaints: {
+        open: openComplaints,
+        recent: recentComplaints.map(c => ({
+          id: c.id,
+          email: c.email,
+          message: c.message,
+          category: c.category,
+          status: c.status,
+          createdAt: c.createdAt,
+        })),
       },
       recentFailures: allLogs.filter(l => !l.success).slice(0, 15).map(l => ({
         endpoint: l.endpoint,

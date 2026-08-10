@@ -7,6 +7,7 @@ interface Stats {
   month: { requests: number; failed: number; costCents: number };
   allTime: { requests: number; costCents: number };
   totals: { explanations: number; phishingChecks: number };
+  complaints: { open: number; recent: { id: string; email: string | null; message: string; category: string; status: string; createdAt: string }[] };
   recentFailures: { endpoint: string; errorMessage: string | null; createdAt: string }[];
   recentRequests: { endpoint: string; success: boolean; costCents: number; createdAt: string }[];
 }
@@ -130,6 +131,32 @@ export default function AdminPage() {
             <p style={{ fontSize: 22, fontWeight: 800 }}>{stats.totals.phishingChecks}</p>
           </div>
         </div>
+
+        {stats.complaints.open > 0 && (
+          <div style={{ padding: "14px 18px", borderRadius: 10, background: "#FEF2F2", border: "1px solid #FECDD3", marginBottom: 20 }}>
+            <p style={{ fontSize: 13, color: "#B91C1C", fontWeight: 700 }}>
+              📬 {stats.complaints.open} open complaint{stats.complaints.open !== 1 ? "s" : ""} waiting for review
+            </p>
+          </div>
+        )}
+
+        {stats.complaints.recent.length > 0 && (
+          <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12, padding: "16px", marginBottom: 24 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, marginBottom: 10 }}>Recent Complaints</p>
+            {stats.complaints.recent.map((c) => (
+              <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid #F3F4F6", fontSize: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <span style={{ fontWeight: 600, color: c.status === "open" ? "#B91C1C" : "#6B7280" }}>
+                    [{c.category}] {c.status}
+                  </span>
+                  <span style={{ color: "#9CA3AF" }}>{new Date(c.createdAt).toLocaleString()}</span>
+                </div>
+                <p style={{ color: "#374151", marginBottom: 2 }}>{c.message}</p>
+                {c.email && <p style={{ color: "#9CA3AF", fontSize: 11 }}>from: {c.email}</p>}
+              </div>
+            ))}
+          </div>
+        )}
 
         {stats.recentFailures.length > 0 && (
           <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12, padding: "16px", marginBottom: 24 }}>
