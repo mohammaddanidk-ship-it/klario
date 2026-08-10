@@ -67,10 +67,11 @@ export async function POST(req: NextRequest) {
 
     const sys = SYSTEM(language);
 
-    // Gemini reads images and PDFs natively — no separate OCR step needed
+    // Gemini reads images and PDFs natively — no separate OCR step needed.
+    // The REST API expects camelCase inlineData (not inline_data).
     const parts: any[] = [];
     if (fileData && fileType) {
-      parts.push({ inline_data: { mime_type: fileType, data: fileData } });
+      parts.push({ inlineData: { mimeType: fileType, data: fileData } });
       parts.push({ text: `${sys}\n\nExplain this document clearly in ${language}.` });
     } else {
       parts.push({ text: `${sys}\n\nDocument:\n${text}` });
