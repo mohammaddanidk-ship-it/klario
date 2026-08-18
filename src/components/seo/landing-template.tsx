@@ -107,15 +107,6 @@ export function SEOLanding({
           </Link>
         </div>
       </main>
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Klarium", "item": "https://klarium.co/" },
-          { "@type": "ListItem", "position": 2, "name": eyebrow, "item": `https://klarium.co${ctaHref.startsWith("/") ? ctaHref : "/"}` }
-        ]
-      }) }} />
     </div>
   );
 }
