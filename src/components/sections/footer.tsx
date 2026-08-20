@@ -34,7 +34,11 @@ export function Footer() {
       links: [
         { label: "Example Library", href: "/example-library" },
         { label: "Trust Center", href: "/trust-center" },
-        { label: "Get Started", href: "#upload" },
+        { label: "Medical Report Explained", href: "/medical-report-summary-ai" },
+        { label: "Legal Document Explainer", href: "/legal-document-explainer" },
+        { label: "Phishing Email Detector", href: "/phishing-email-detector" },
+        { label: "Scam Message Checker", href: "/scam-message-checker" },
+        { label: "Document Understanding AI", href: "/document-understanding-ai" },
       ],
     },
   ];
@@ -43,7 +47,6 @@ export function Footer() {
     <footer className="mt-auto border-t border-border bg-background">
       <div className="container-premium py-16 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_2.6fr] lg:gap-16">
-          {/* Brand + language */}
           <div className="flex flex-col gap-6">
             <Link href="/" aria-label="Klarium home">
               <Logo />
@@ -54,7 +57,6 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-2">
               <LanguageSelector variant="footer" />
             </div>
-            {/* Honest trust badges — no fake certifications */}
             <ul className="flex flex-wrap items-center gap-2">
               {[t.trust_1, t.trust_2, t.trust_4].map((b) => (
                 <li
@@ -68,7 +70,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Link columns */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {columns.map((col) => (
               <div key={col.title}>
@@ -92,7 +93,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-14 flex flex-col items-start gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Klarium. {t.footer_rights}
