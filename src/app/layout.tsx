@@ -17,6 +17,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Klarium" }],
   creator: "Klarium",
   publisher: "Klarium",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/icon.svg"],
+    apple: ["/icon.svg"],
+  },
   alternates: { canonical: "/" },
   openGraph: {
     title: "Klarium — Understand Anything. Stay Safe. In Your Language.",
