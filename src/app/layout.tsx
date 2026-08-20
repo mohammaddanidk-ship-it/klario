@@ -18,9 +18,7 @@ export const metadata: Metadata = {
   creator: "Klarium",
   publisher: "Klarium",
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: ["/icon.svg"],
     apple: ["/icon.svg"],
   },
@@ -42,12 +40,43 @@ export const viewport = {
   width: "device-width", initialScale: 1, maximumScale: 5,
 };
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#organization`,
+      name: "Klarium",
+      url: SITE,
+      logo: `${SITE}/icon.svg`,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE}/#website`,
+      name: "Klarium",
+      url: SITE,
+      publisher: { "@id": `${SITE}/#organization` },
+      inLanguage: "en",
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${SITE}/#webpage`,
+      url: SITE,
+      name: "Klarium — Understand Anything. Stay Safe. In Your Language.",
+      isPartOf: { "@id": `${SITE}/#website` },
+      about: { "@id": `${SITE}/#organization` },
+      inLanguage: "en",
+    },
+  ],
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
