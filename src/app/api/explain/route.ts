@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { checkRateLimit, checkDuplicate, getClientIdentifier, looksLikeBot, sanitizeUserInput } from "@/lib/rate-limit";
 import { logUsage } from "@/lib/usage-tracker";
+import { isQualitySeoCandidate } from "@/lib/seo/public-content";
 
 function toSlug(docType: string): string {
   return docType.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim().substring(0, 60);
@@ -175,20 +176,51 @@ export async function POST(req: NextRequest) {
     const detectedTypeMatch = explanation.match(/\*\*Document type:\*\*\s*([^\n]+)/i);
     const detectedType = detectedTypeMatch?.[1]?.trim() || docType || "document";
     const slug = toSlug(detectedType);
+
+    // Public SEO is deliberately decoupled from the visitor's document.
+    // We only publish a generic, sufficiently detailed AI explanation and NEVER persist
+    // raw document text or snippets from the visitor's upload.
+    const qualityCandidate = {
+      title: `How to understand a ${detectedType}`,
+      description: `Klarium explains what a ${detectedType} means in plain language, what to look for, what may need attention, and practical next steps.`,
+      explanation,
+      faqs: [
+        { question: `What is a ${detectedType}?`, answer: `A ${detectedType} is explained by Klarium in plain language, with attention to its purpose and important information.` },
+        { question: `What should I check in a ${detectedType}?`, answer: `Check the dates, amounts, results, clauses, requests and warnings that are actually present in the document.` },
+        { question: `Should I get professional advice?`, answer: `For medical, legal, financial or other high-stakes decisions, use Klarium as an explanation aid and confirm important decisions with the appropriate qualified professional.` },
+      ],
+    };
+    const publishable = isQualitySeoCandidate(qualityCandidate);
+
     let savedSlug: string | null = null;
     try {
       const existing = await db.explanation.findUnique({ where: { slug } });
       if (existing) {
-        const snippets: string[] = JSON.parse(existing.snippets || "[]");
-        if (text && text.length > 20) { snippets.unshift(text.substring(0, 200)); if (snippets.length > 5) snippets.pop(); }
-        await db.explanation.update({ where: { slug }, data: { count: { increment: 1 }, explanation, snippets: JSON.stringify(snippets), language } });
-        savedSlug = existing.slug;
-      } else {
-        await db.explanation.create({ data: { slug, docType: detectedType, explanation, snippets: JSON.stringify(text ? [text.substring(0, 200)] : []), language, isPhishing: /phishing|scam|suspicious/i.test(detectedType) } });
+        if (publishable) {
+          await db.explanation.update({
+            where: { slug },
+            data: { count: { increment: 1 }, explanation, snippets: "[]", language },
+          });
+          savedSlug = existing.slug;
+        }
+      } else if (publishable) {
+        await db.explanation.create({
+          data: {
+            slug,
+            docType: detectedType,
+            explanation,
+            snippets: "[]",
+            language,
+            isPhishing: /phishing|scam|suspicious/i.test(detectedType),
+          },
+        });
         savedSlug = slug;
       }
-    } catch (dbError) { console.error("[/api/explain DB]", dbError); }
-    return NextResponse.json({ explanation, slug: savedSlug, detectedType });
+    } catch (dbError) {
+      console.error("[/api/explain DB]", dbError);
+    }
+
+    return NextResponse.json({ explanation, slug: savedSlug, detectedType, publicPageCreated: Boolean(savedSlug) });
   } catch (e) {
     console.error("[/api/explain]", e);
     try { await logUsage({ endpoint: "explain", success: false, errorMessage: String(e) }); } catch {}
