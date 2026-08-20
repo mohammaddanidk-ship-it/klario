@@ -8,6 +8,34 @@ function toSlug(docType: string): string {
   return docType.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim().substring(0, 60);
 }
 
+function buildSafePublicExplanation(docType: string, language: string, phishing: boolean): string {
+  const label = phishing ? "scam or phishing message" : docType;
+  const sections = language.toLowerCase().startsWith("english")
+    ? [
+        `**Document type:** ${docType}`,
+        `**What it is:** This page explains what a ${label} generally means, what information is normally important, what to check, and what practical next steps may be useful. It is a general educational guide and does not contain or reproduce any visitor's document.`,
+        `## 1. What this means\nA ${label} can contain important information that is easy to misunderstand when it uses technical, legal, financial, medical, or urgent language. The meaning depends on the exact document, the issuing organization, the dates and amounts shown, and the surrounding context. A general explanation can help you understand the structure before you decide what to do.`,
+        `## 2. What stands out\nLook for the document's purpose, issuing organization, names of relevant parties, dates, amounts, reference numbers, instructions, warnings, conditions, deadlines, and any unusual requests. For medical material, pay attention to the test name, result, unit, and stated reference range. For contracts and notices, pay attention to obligations, termination terms, penalties, and response requirements. For messages, pay attention to links, sender details, urgency, and requests for money or credentials.`,
+        `## 3. What it means for you\nThe important question is not only what a document says but what action it expects from you. Separate factual information from conclusions or recommendations. A document can describe a result, request, offer, warning, or obligation without proving every consequence that someone might assume from it.`,
+        `## 4. What needs attention\nGive priority to information that has a stated deadline, financial consequence, legal obligation, health implication, account-security risk, or request for sensitive information. Do not assume that something is dangerous or fraudulent simply because it looks unfamiliar. Verify important claims through the relevant official or professional source.`,
+        `## 5. What to do next\n1. Identify who issued the document and why.\n2. Read the dates, amounts, results, clauses, and instructions carefully.\n3. Verify important information using an official source rather than an unexpected link or phone number.\n4. Keep a copy of the original document for your own records.\n5. For high-stakes medical, legal, financial, tax, immigration, or insurance decisions, confirm the interpretation with the appropriate qualified professional.`,
+        `## 6. What to ask / verify\nAsk what action is required, when it is required, which facts are uncertain, what evidence supports the conclusion, and where an official confirmation can be obtained. If any part of the original document is unclear, use the original document and an appropriate professional as the final source of truth.`,
+        `## 7. In simple words\nKlarium helps turn complicated documents into understandable information. The exact meaning always comes from the original document and its context, so important decisions should be based on verified facts rather than a generic explanation.`,
+      ]
+    : [
+        `**Document type:** ${docType}`,
+        `**What it is:** This is a general Klarium guide explaining what a ${label} usually contains, what deserves attention, and what practical steps can help. It is educational content only and contains no visitor-submitted document text.`,
+        `## 1. What this means\nA ${label} can contain important information that may be difficult to understand because of specialist language, formal conditions, numbers, dates, or urgent instructions. The exact meaning depends on the original document and its context.`,
+        `## 2. What stands out\nCheck the purpose, issuer, dates, amounts, results, conditions, instructions, warnings, deadlines, and unusual requests. Compare important information with the original source and do not guess when something is unclear.`,
+        `## 3. What it means for you\nThe practical meaning depends on what the document asks you to do and what it establishes. Separate information that is explicitly stated from general background or assumptions.`,
+        `## 4. What needs attention\nPay special attention to deadlines, financial consequences, legal obligations, health implications, account-security risks, and requests for sensitive information. Verify important claims through the appropriate official or professional source.`,
+        `## 5. What to do next\n1. Identify the issuer and purpose.\n2. Check dates, amounts, results, clauses, and instructions.\n3. Verify important claims through an official channel.\n4. Keep the original document available.\n5. Get qualified professional advice for high-stakes decisions.`,
+        `## 6. What to ask / verify\nConfirm what action is required, the relevant deadline, the evidence supporting important claims, and where official confirmation can be obtained.`,
+        `## 7. In simple words\nThis guide helps you understand the kind of information a ${label} may contain. The original document and the appropriate professional remain the final source of truth.`,
+      ];
+  return sections.join("\n\n");
+}
+
 const SYSTEM = (lang: string) => `You are Klarium, a professional document-understanding assistant. Your purpose is NOT to summarize documents. Your purpose is to make a person genuinely understand what their document means, why important information matters, what requires attention, and what they should do next.
 
 FIRST: AUTOMATICALLY IDENTIFY THE DOCUMENT
@@ -176,43 +204,37 @@ export async function POST(req: NextRequest) {
     const detectedTypeMatch = explanation.match(/\*\*Document type:\*\*\s*([^\n]+)/i);
     const detectedType = detectedTypeMatch?.[1]?.trim() || docType || "document";
     const slug = toSlug(detectedType);
+    const phishing = /phishing|scam|suspicious/i.test(detectedType);
 
-    // Public SEO is deliberately decoupled from the visitor's document.
-    // We only publish a generic, sufficiently detailed AI explanation and NEVER persist
-    // raw document text or snippets from the visitor's upload.
+    // Never publish, update, or retain a public SEO page with content generated from a visitor's document.
+    // The private explanation is returned to the visitor only. Public SEO content is generated from
+    // the detected document category and contains no visitor text, identifiers, values, or image data.
+    const publicExplanation = buildSafePublicExplanation(detectedType, language, phishing);
     const qualityCandidate = {
-      title: `How to understand a ${detectedType}`,
+      title: phishing ? `How to understand ${detectedType} scams` : `How to understand a ${detectedType}`,
       description: `Klarium explains what a ${detectedType} means in plain language, what to look for, what may need attention, and practical next steps.`,
-      explanation,
+      explanation: publicExplanation,
       faqs: [
-        { question: `What is a ${detectedType}?`, answer: `A ${detectedType} is explained by Klarium in plain language, with attention to its purpose and important information.` },
-        { question: `What should I check in a ${detectedType}?`, answer: `Check the dates, amounts, results, clauses, requests and warnings that are actually present in the document.` },
-        { question: `Should I get professional advice?`, answer: `For medical, legal, financial or other high-stakes decisions, use Klarium as an explanation aid and confirm important decisions with the appropriate qualified professional.` },
+        { question: `What is a ${detectedType}?`, answer: `This guide explains the purpose and common structure of a ${detectedType} in plain language.` },
+        { question: `What should I check in a ${detectedType}?`, answer: `Check the dates, amounts, results, clauses, requests and warnings that are actually present in the original document.` },
+        { question: `Should I get professional advice?`, answer: `For medical, legal, financial or other high-stakes decisions, confirm important decisions with the appropriate qualified professional.` },
       ],
     };
-    const publishable = isQualitySeoCandidate(qualityCandidate);
 
     let savedSlug: string | null = null;
     try {
       const existing = await db.explanation.findUnique({ where: { slug } });
       if (existing) {
-        if (publishable) {
+        if (isQualitySeoCandidate(qualityCandidate)) {
           await db.explanation.update({
             where: { slug },
-            data: { count: { increment: 1 }, explanation, snippets: "[]", language },
+            data: { count: { increment: 1 }, explanation: publicExplanation, snippets: "[]", language, isPhishing: phishing },
           });
           savedSlug = existing.slug;
         }
-      } else if (publishable) {
+      } else if (isQualitySeoCandidate(qualityCandidate)) {
         await db.explanation.create({
-          data: {
-            slug,
-            docType: detectedType,
-            explanation,
-            snippets: "[]",
-            language,
-            isPhishing: /phishing|scam|suspicious/i.test(detectedType),
-          },
+          data: { slug, docType: detectedType, explanation: publicExplanation, snippets: "[]", language, isPhishing: phishing },
         });
         savedSlug = slug;
       }
