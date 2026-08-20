@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { HeartPulse, Scale, Landmark, ShieldCheck, FileText, ArrowRight } from "lucide-react";
+import { HeartPulse, Scale, Landmark, ShieldCheck, FileText, ArrowRight, ClipboardPlus } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Example Library — See What Klarium Explains | Klarium",
-  description: "Browse real examples of documents Klarium explains — medical reports, legal notices, bank letters, and scam messages — in plain language.",
+  title: "Document & Scam Example Library — What Klarium Explains | Klarium",
+  description: "Browse illustrative examples of documents, prescriptions, medical reports, legal notices, bank letters, and scam messages that Klarium can help explain in plain language.",
   alternates: { canonical: "/example-library" },
 };
 
 const CATEGORIES = [
   {
-    group: "Medical",
+    group: "Medical & Prescriptions",
     icon: HeartPulse,
     items: [
+      { label: "Medical Report Summary", href: "/medical-report-summary-ai" },
+      { label: "Doctor Prescription Explained", href: "/doctor-prescription-explained", icon: ClipboardPlus },
       { label: "CBC Blood Test Results", href: "/example-library/cbc-blood-test-explained" },
       { label: "MRI Report", href: "/example-library/mri-report-explained" },
       { label: "CT Scan Report", href: "/example-library/ct-scan-explained" },
@@ -20,10 +22,10 @@ const CATEGORIES = [
     ],
   },
   {
-    group: "Legal",
+    group: "Legal & Contracts",
     icon: Scale,
     items: [
-      { label: "Legal Notice", href: "/legal-document-explainer" },
+      { label: "Legal Document Explainer", href: "/legal-document-explainer" },
       { label: "Employment Contract", href: "/employment-contract-explainer" },
       { label: "Rental Agreement", href: "/rental-agreement-explained" },
       { label: "Court Notice", href: "/court-notice-explained" },
@@ -41,10 +43,11 @@ const CATEGORIES = [
     ],
   },
   {
-    group: "Scam Detection",
+    group: "Scam & Phishing Detection",
     icon: ShieldCheck,
     items: [
-      { label: "Phishing Email", href: "/phishing-email-detector" },
+      { label: "Phishing Email Detector", href: "/phishing-email-detector" },
+      { label: "Scam Message Checker", href: "/scam-message-checker" },
       { label: "Fake Bank Email", href: "/example-library/fake-bank-email-example" },
       { label: "Fake Delivery Scam", href: "/example-library/fake-delivery-scam-example" },
       { label: "WhatsApp Scam", href: "/whatsapp-scam-checker" },
@@ -70,43 +73,41 @@ export default function ExampleLibraryPage() {
       </header>
 
       <main style={{ maxWidth: 800, margin: "0 auto", padding: "48px 20px 80px" }}>
+        <nav aria-label="Breadcrumb" style={{ fontSize: 12, color: "#6B7280", marginBottom: 20 }}>
+          <Link href="/" style={{ color: "#0066CC" }}>Klarium</Link><span aria-hidden="true"> / </span><span>Example Library</span>
+        </nav>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", borderRadius: 20, background: "#EFF6FF", border: "1px solid #BFDBFE", marginBottom: 18 }}>
           <FileText size={13} color="#1D4ED8" />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#1E3A8A", letterSpacing: ".08em", textTransform: "uppercase" }}>Example Library</span>
         </div>
-        <h1 style={{ fontSize: "clamp(28px,5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.03em", marginBottom: 14 }}>
-          See what Klarium explains
-        </h1>
-        <p style={{ fontSize: 17, color: "#4B5563", lineHeight: 1.7, marginBottom: 40, maxWidth: 600 }}>
-          Browse real examples of the documents and messages Klarium can explain — from medical reports to scam emails — before uploading your own.
+        <h1 style={{ fontSize: "clamp(28px,5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.03em", marginBottom: 14 }}>Explore what Klarium can explain</h1>
+        <p style={{ fontSize: 17, color: "#4B5563", lineHeight: 1.7, marginBottom: 18, maxWidth: 640 }}>
+          Explore illustrative document and message guides before using Klarium on your own file. The examples below are educational guides, not private documents submitted by visitors.
+        </p>
+        <p style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.6, marginBottom: 40, maxWidth: 640 }}>
+          Klarium covers four connected search topics: understanding medical information, understanding legal and financial documents, interpreting prescriptions safely, and checking suspicious messages.
         </p>
 
         {CATEGORIES.map((cat) => (
-          <div key={cat.group} style={{ marginBottom: 32 }}>
+          <section key={cat.group} aria-labelledby={`category-${cat.group}`} style={{ marginBottom: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <cat.icon size={14} color="#1D4ED8" />
-              </div>
-              <h2 style={{ fontSize: 16, fontWeight: 700 }}>{cat.group}</h2>
+              <div style={{ width: 30, height: 30, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}><cat.icon size={14} color="#1D4ED8" /></div>
+              <h2 id={`category-${cat.group}`} style={{ fontSize: 16, fontWeight: 700 }}>{cat.group}</h2>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 10 }}>
               {cat.items.map((item) => (
-                <Link key={item.href} href={item.href}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px", background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, fontSize: 14, fontWeight: 500 }}>
-                  {item.label}
-                  <ArrowRight size={14} color="#9CA3AF" />
+                <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px", background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, fontSize: 14, fontWeight: 500 }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 7 }}>{item.icon ? <item.icon size={14} color="#1D4ED8" /> : null}{item.label}</span><ArrowRight size={14} color="#9CA3AF" />
                 </Link>
               ))}
             </div>
-          </div>
+          </section>
         ))}
 
         <div style={{ marginTop: 20, padding: "28px 24px", borderRadius: 14, background: "#0A1628", textAlign: "center", color: "#fff" }}>
           <p style={{ fontWeight: 800, fontSize: 20, marginBottom: 8, letterSpacing: "-.03em" }}>Have your own document?</p>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,.55)", marginBottom: 20, lineHeight: 1.6 }}>Skip the examples — get your own explained right now, free.</p>
-          <Link href="/#upload" style={{ display: "inline-block", background: "#0066CC", color: "#fff", padding: "12px 26px", borderRadius: 10, fontWeight: 700, fontSize: 14 }}>
-            Explain My Document →
-          </Link>
+          <Link href="/#upload" style={{ display: "inline-block", background: "#0066CC", color: "#fff", padding: "12px 26px", borderRadius: 10, fontWeight: 700, fontSize: 14 }}>Explain My Document →</Link>
         </div>
       </main>
     </div>
