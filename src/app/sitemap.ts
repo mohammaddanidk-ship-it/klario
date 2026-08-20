@@ -13,8 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       take: 50000,
     });
 
-    // Only publish explicitly safe public records. Legacy records with visitor-derived
-    // snippets are excluded until they are regenerated as generic category guides.
     dynamic = records
       .filter((r) => r.slug && r.slug !== "document" && r.snippets === "[]")
       .map((r) => ({
@@ -23,13 +21,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       }));
   } catch {
-    // Sitemap still works with curated pages if the database is unavailable.
+    // Keep the curated sitemap available even when the database is unavailable.
   }
 
   const curated: MetadataRoute.Sitemap = [
     { url: BASE, changeFrequency: "daily", priority: 1.0 },
     { url: `${BASE}/trust-center`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/medical-report-summary-ai`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE}/doctor-prescription-explained`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/legal-document-explainer`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/phishing-email-detector`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/scam-message-checker`, changeFrequency: "weekly", priority: 0.9 },
