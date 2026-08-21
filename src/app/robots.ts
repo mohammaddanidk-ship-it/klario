@@ -1,9 +1,19 @@
 import { MetadataRoute } from "next";
 
+// Keep robots.txt on the canonical production domain. This prevents a stale
+// deployment environment variable from advertising a Vercel preview sitemap.
+const SITE = "https://klarium.co";
+
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://klarium.co";
   return {
-    rules:   [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] }],
-    sitemap: `${base}/sitemap.xml`,
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/admin", "/api/"],
+      },
+    ],
+    sitemap: `${SITE}/sitemap.xml`,
+    host: SITE,
   };
 }
