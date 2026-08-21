@@ -39,6 +39,11 @@ function containsVisitorLikeContent(value: string): boolean {
   ].some((pattern) => pattern.test(normalized));
 }
 
+function hasDuplicateFaqQuestions(faqs: Array<{ question: string; answer: string }>): boolean {
+  const normalized = faqs.map((faq) => faq.question.toLowerCase().replace(/[^a-z0-9\u00c0-\u024f\u0600-\u06ff]+/g, " ").trim());
+  return new Set(normalized).size !== normalized.length;
+}
+
 /**
  * Quality gate for the programmatic SEO layer.
  * This deliberately rejects thin, generic, or visitor-derived pages before
@@ -58,6 +63,7 @@ export function isQualitySeoCandidate(candidate: PublicSeoCandidate): boolean {
   const faqs = candidate.faqs ?? [];
   if (faqs.length < 3 || faqs.length > 8) return false;
   if (faqs.some((faq) => faq.question.trim().length < 12 || faq.answer.trim().length < 40)) return false;
+  if (hasDuplicateFaqQuestions(faqs)) return false;
 
   // A public guide needs actual explanatory structure, not a keyword paragraph.
   if (!hasRequiredGuideSections(candidate.explanation)) return false;
