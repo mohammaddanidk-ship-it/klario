@@ -3,11 +3,14 @@ import { db } from "@/lib/db";
 
 const BASE = "https://klarium.co";
 
+// Regenerate periodically so new approved explanation pages become discoverable
+// without querying the database on every sitemap request.
+export const revalidate = 3600;
+
 /**
  * Only URLs that are intentionally indexable should enter this sitemap.
  * Google treats sitemaps as canonical URL hints, so we keep this list clean
- * instead of submitting every database record. See Google Search Central's
- * sitemap guidance.
+ * instead of submitting every database record.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let dynamic: MetadataRoute.Sitemap = [];
@@ -38,47 +41,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
       .map((record) => ({
         url: `${BASE}/explain/${record.slug}`,
-        // lastModified should reflect a real content/schema/link update, not
-        // an artificial "freshness" date.
         lastModified: record.updatedAt ?? record.createdAt,
-        changeFrequency: "monthly" as const,
-        priority: 0.7,
       }));
   } catch {
     // Keep the curated sitemap available when the database is unavailable.
   }
 
   const curated: MetadataRoute.Sitemap = [
-    { url: BASE, changeFrequency: "daily", priority: 1.0 },
-    { url: `${BASE}/trust-center`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/medical-report-summary-ai`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/doctor-prescription-explained`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/legal-document-explainer`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/phishing-email-detector`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/scam-message-checker`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/document-understanding-ai`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/rental-agreement-explained`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/employment-contract-explainer`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/insurance-policy-explained`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/bank-rejection-letter-explained`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/visa-rejection-letter-explained`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/medical-bill-explained`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/court-notice-explained`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/whatsapp-scam-checker`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/job-offer-scam-checker`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/crypto-investment-scam-checker`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/example-library`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE}/example-library/cbc-blood-test-explained`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/example-library/mri-report-explained`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/example-library/ct-scan-explained`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/example-library/government-letter-explained`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/example-library/insurance-claim-explained`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/example-library/fake-bank-email-example`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/example-library/fake-delivery-scam-example`, changeFrequency: "monthly", priority: 0.7 },
+    { url: BASE },
+    { url: `${BASE}/trust-center` },
+    { url: `${BASE}/medical-report-summary-ai` },
+    { url: `${BASE}/doctor-prescription-explained` },
+    { url: `${BASE}/legal-document-explainer` },
+    { url: `${BASE}/phishing-email-detector` },
+    { url: `${BASE}/scam-message-checker` },
+    { url: `${BASE}/document-understanding-ai` },
+    { url: `${BASE}/rental-agreement-explained` },
+    { url: `${BASE}/employment-contract-explainer` },
+    { url: `${BASE}/insurance-policy-explained` },
+    { url: `${BASE}/bank-rejection-letter-explained` },
+    { url: `${BASE}/visa-rejection-letter-explained` },
+    { url: `${BASE}/medical-bill-explained` },
+    { url: `${BASE}/court-notice-explained` },
+    { url: `${BASE}/whatsapp-scam-checker` },
+    { url: `${BASE}/job-offer-scam-checker` },
+    { url: `${BASE}/crypto-investment-scam-checker` },
+    { url: `${BASE}/example-library` },
+    { url: `${BASE}/example-library/cbc-blood-test-explained` },
+    { url: `${BASE}/example-library/mri-report-explained` },
+    { url: `${BASE}/example-library/ct-scan-explained` },
+    { url: `${BASE}/example-library/government-letter-explained` },
+    { url: `${BASE}/example-library/insurance-claim-explained` },
+    { url: `${BASE}/example-library/fake-bank-email-example` },
+    { url: `${BASE}/example-library/fake-delivery-scam-example` },
   ];
 
-  // Avoid duplicate URLs if a curated landing page is also represented by a
-  // database explanation record.
   const curatedUrls = new Set(curated.map((item) => item.url));
   return [...curated, ...dynamic.filter((item) => !curatedUrls.has(item.url))];
 }
