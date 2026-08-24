@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
 
-// Keep robots.txt on the canonical production domain. This prevents a stale
-// deployment environment variable from advertising a Vercel preview sitemap.
-const SITE = "https://klarium.co";
+// Keep robots.txt on the final live canonical host so Google discovers the
+// same host that is listed in the sitemap and page metadata.
+const SITE = "https://www.klarium.co";
 
 export default function robots(): MetadataRoute.Robots {
   return {
