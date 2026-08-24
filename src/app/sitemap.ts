@@ -1,10 +1,11 @@
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 
-const BASE = "https://klarium.co";
+// The live canonical host currently resolves through www. Keep every sitemap
+// URL on the final host so Google is never asked to crawl an apex URL that
+// immediately redirects to www.
+const BASE = "https://www.klarium.co";
 
-// Regenerate periodically so new approved explanation pages become discoverable
-// without querying the database on every sitemap request.
 export const revalidate = 3600;
 
 /**
