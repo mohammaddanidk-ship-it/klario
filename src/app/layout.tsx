@@ -7,7 +7,10 @@ import { I18nProvider } from "@/lib/i18n/context";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
-const SITE = "https://klarium.co";
+
+// The live site currently resolves the apex host to www. Use the final host
+// consistently for metadata, canonicals, structured data and sharing URLs.
+const SITE = "https://www.klarium.co";
 const BRAND_DESCRIPTION = "Understand important documents and suspicious messages in plain language, with multilingual AI explanations and safety-focused guidance.";
 const BRAND_TITLE = "Klarium — Understand Anything. Stay Safe. In Your Language.";
 
