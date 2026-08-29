@@ -8,9 +8,8 @@ import { I18nProvider } from "@/lib/i18n/context";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 
-// The live site currently resolves the apex host to www. Use the final host
-// consistently for metadata, canonicals, structured data and sharing URLs.
 const SITE = "https://www.klarium.co";
+const FAVICON = `${SITE}/icon`;
 const BRAND_DESCRIPTION = "Understand important documents and suspicious messages in plain language, with multilingual AI explanations and safety-focused guidance.";
 const BRAND_TITLE = "Klarium — Understand Anything. Stay Safe. In Your Language.";
 
@@ -24,9 +23,9 @@ export const metadata: Metadata = {
   publisher: "Klarium",
   category: "technology",
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: ["/icon.svg"],
-    apple: ["/icon.svg"],
+    icon: [{ url: "/icon", type: "image/png", sizes: "64x64" }],
+    shortcut: [{ url: "/icon", type: "image/png", sizes: "64x64" }],
+    apple: [{ url: "/icon", type: "image/png", sizes: "64x64" }],
   },
   alternates: { canonical: "/" },
   openGraph: {
@@ -73,7 +72,7 @@ const structuredData = {
       "@id": `${SITE}/#organization`,
       name: "Klarium",
       url: SITE,
-      logo: `${SITE}/icon.svg`,
+      logo: FAVICON,
       description: BRAND_DESCRIPTION,
       knowsAbout: [
         "document understanding",
@@ -133,6 +132,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="icon" href="/icon" type="image/png" sizes="64x64" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
