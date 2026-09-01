@@ -7,7 +7,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const SITE = "https://klarium.co";
+const SITE = "https://www.klarium.co";
 
 function cleanType(value: string) {
   return value.replace(/\s+/g, " ").trim();
