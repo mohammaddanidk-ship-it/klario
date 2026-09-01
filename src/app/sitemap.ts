@@ -8,31 +8,18 @@ const BASE = "https://www.klarium.co";
 
 export const revalidate = 3600;
 
-/**
- * Only URLs that are intentionally indexable should enter this sitemap.
- * Google treats sitemaps as canonical URL hints, so we keep this list clean
- * instead of submitting every database record.
- */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let dynamic: MetadataRoute.Sitemap = [];
 
   try {
     const records = await db.explanation.findMany({
-      select: {
-        slug: true,
-        snippets: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      where: {
-        snippets: "[]",
-      },
+      select: { slug: true, snippets: true, createdAt: true, updatedAt: true },
+      where: { snippets: "[]" },
       orderBy: { updatedAt: "desc" },
       take: 50000,
     });
 
     const seen = new Set<string>();
-
     dynamic = records
       .filter((record) => {
         const slug = record.slug?.trim();
@@ -50,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const curated: MetadataRoute.Sitemap = [
     { url: BASE },
+    { url: `${BASE}/guides` },
     { url: `${BASE}/trust-center` },
     { url: `${BASE}/medical-report-summary-ai` },
     { url: `${BASE}/doctor-prescription-explained` },
