@@ -10,6 +10,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 const SITE = "https://www.klarium.co";
 const FAVICON = `${SITE}/icon`;
+const BRAND_LOGO = `${SITE}/logo`;
 const BRAND_DESCRIPTION = "Understand important documents and suspicious messages in plain language, with multilingual AI explanations and safety-focused guidance.";
 const BRAND_TITLE = "Klarium — Understand Anything. Stay Safe. In Your Language.";
 
@@ -72,7 +73,7 @@ const structuredData = {
       "@id": `${SITE}/#organization`,
       name: "Klarium",
       url: SITE,
-      logo: FAVICON,
+      logo: BRAND_LOGO,
       description: BRAND_DESCRIPTION,
       knowsAbout: [
         "document understanding",
