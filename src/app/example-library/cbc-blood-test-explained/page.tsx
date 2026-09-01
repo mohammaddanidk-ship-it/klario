@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileText, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+const SITE = "https://www.klarium.co";
+const PAGE_URL = `${SITE}/example-library/cbc-blood-test-explained`;
 
 export const metadata: Metadata = {
-  title: "CBC Blood Test Results Explained: WBC, Hemoglobin, MCV & More | Klarium",
+  title: "CBC Blood Test Results Explained: WBC, Hemoglobin, MCV & More",
   description: "Learn how to read CBC blood test results in plain language, including white blood cells, hemoglobin, platelets, MCV, anemia patterns, reference ranges, and what to discuss with a doctor.",
   alternates: { canonical: "/example-library/cbc-blood-test-explained" },
 };
@@ -27,31 +30,35 @@ const FAQS = [
   ["Can Klarium diagnose anemia from a CBC?", "No. Klarium can explain CBC terminology and organize findings, but a diagnosis and treatment plan should come from a qualified healthcare professional."],
 ];
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Article", "@id": `${PAGE_URL}#article`, headline: "CBC Blood Test Results Explained: WBC, Hemoglobin, MCV & More", description: "Plain-language guide to understanding common CBC blood test values and reference ranges.", url: PAGE_URL, mainEntityOfPage: PAGE_URL, publisher: { "@type": "Organization", name: "Klarium", url: SITE }, about: ["Complete Blood Count", "CBC blood test", "hemoglobin", "MCV", "white blood cells", "platelets"], inLanguage: "en" },
+    { "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Klarium", item: SITE },
+      { "@type": "ListItem", position: 2, name: "Example Library", item: `${SITE}/example-library` },
+      { "@type": "ListItem", position: 3, name: "CBC Blood Test Results", item: PAGE_URL },
+    ] },
+  ],
+};
+
 export default function Page() {
   return (
     <div style={{ minHeight: "100vh", background: "#F5F5F7", fontFamily: "Inter,system-ui,-apple-system,sans-serif", color: "#1D1D1F", WebkitFontSmoothing: "antialiased" }}>
       <style>{`*{box-sizing:border-box;margin:0;padding:0;}a{color:inherit;text-decoration:none;}`}</style>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <header style={{ background: "#fff", borderBottom: "1px solid #E5E7EB", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: 16, display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ width: 28, height: 28, borderRadius: 7, background: "#0066CC", display: "flex", alignItems: "center", justifyContent: "center" }}><svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M6.5 1L1.5 3.2V6.5c0 2.8 2.3 4.2 5 5.1 2.7-.9 5-2.3 5-5.1V3.2L6.5 1z" stroke="#fff" strokeWidth="1.3" strokeLinejoin="round"/></svg></span>
-          Klarium
-        </Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: 16, display: "flex", alignItems: "center", gap: 8 }}>Klarium</Link>
         <Link href="/#upload" style={{ fontSize: 13, color: "#0066CC", fontWeight: 600 }}>Try Klarium →</Link>
       </header>
       <main style={{ maxWidth: 780, margin: "0 auto", padding: "40px 20px 80px" }}>
         <nav aria-label="Breadcrumb" style={{ fontSize: 12, color: "#6E6E73", marginBottom: 20 }}><Link href="/" style={{ color: "#0066CC" }}>Klarium</Link>{" / "}<Link href="/example-library" style={{ color: "#0066CC" }}>Example Library</Link>{" / "}<span>CBC Blood Test Results</span></nav>
-        <header style={{ marginBottom: 28 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: "#0066CC", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 10 }}>Medical example guide</p>
-          <h1 style={{ fontSize: "clamp(27px,5vw,42px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-.035em", marginBottom: 14 }}>CBC Blood Test Results, Explained</h1>
-          <p style={{ maxWidth: 700, fontSize: 17, color: "#5F6368", lineHeight: 1.65 }}>Learn what common CBC values mean, including WBC, hemoglobin, MCV and platelets, and how to read results together with the reference range on your report.</p>
-        </header>
+        <header style={{ marginBottom: 28 }}><p style={{ fontSize: 11, fontWeight: 700, color: "#0066CC", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 10 }}>Medical example guide</p><h1 style={{ fontSize: "clamp(27px,5vw,42px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-.035em", marginBottom: 14 }}>CBC Blood Test Results, Explained</h1><p style={{ maxWidth: 700, fontSize: 17, color: "#5F6368", lineHeight: 1.65 }}>Learn what common CBC values mean, including WBC, hemoglobin, MCV and platelets, and how to read results together with the reference range on your report.</p></header>
         <div style={{ padding: "16px 18px", background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 12, marginBottom: 20 }}><p style={{ fontSize: 11, fontWeight: 800, color: "#1E3A8A", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 7 }}>Important</p><p style={{ fontSize: 14, color: "#1D1D1F", lineHeight: 1.65 }}>This is a synthetic educational example, not a real patient's report. CBC results must be interpreted using the actual laboratory reference ranges and clinical context.</p></div>
         <div style={{ padding: "14px 18px", background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, marginBottom: 16 }}><p style={{ fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>Illustrative CBC report</p><p style={{ fontSize: 13, color: "#374151", lineHeight: 1.7, fontStyle: "italic", whiteSpace: "pre-line" }}>White Blood Cell Count: 11.8 x10^9/L (High)\nHemoglobin: 10.9 g/dL (Low)\nPlatelet Count: 165 x10^9/L (Normal)\nMCV: 78 fL (Low)</p></div>
-        <article style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 20 }}>
-          {BLOCKS.map((b, i) => <section key={b.h} style={{ marginBottom: i < BLOCKS.length - 1 ? 24 : 0 }}><h2 style={{ fontSize: 16, fontWeight: 750, color: "#1E3A8A", marginBottom: 7 }}>{b.h}</h2><p style={{ fontSize: 14, color: "#1D1D1F", lineHeight: 1.75 }}>{b.t}</p></section>)}
-        </article>
+        <article style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 20 }}>{BLOCKS.map((b, i) => <section key={b.h} style={{ marginBottom: i < BLOCKS.length - 1 ? 24 : 0 }}><h2 style={{ fontSize: 16, fontWeight: 750, color: "#1E3A8A", marginBottom: 7 }}>{b.h}</h2><p style={{ fontSize: 14, color: "#1D1D1F", lineHeight: 1.75 }}>{b.t}</p></section>)}</article>
         <section aria-labelledby="faq" style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 20 }}><h2 id="faq" style={{ fontSize: 18, fontWeight: 750, marginBottom: 16 }}>CBC blood test questions</h2>{FAQS.map(([q, a], i) => <div key={q} style={{ marginBottom: i < FAQS.length - 1 ? 16 : 0, paddingBottom: i < FAQS.length - 1 ? 16 : 0, borderBottom: i < FAQS.length - 1 ? "1px solid #F3F4F6" : "none" }}><h3 style={{ fontSize: 14, fontWeight: 650, marginBottom: 5 }}>{q}</h3><p style={{ fontSize: 13, color: "#6E6E73", lineHeight: 1.65 }}>{a}</p></div>)}</section>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 20 }}><Link href="/medical-report-summary-ai" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 13px", borderRadius: 9, background: "#fff", border: "1px solid #E5E7EB", color: "#1D4ED8", fontSize: 13, fontWeight: 650 }}>Medical Report Explainer <ArrowRight size={13} /></Link><Link href="/doctor-prescription-explained" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 13px", borderRadius: 9, background: "#fff", border: "1px solid #E5E7EB", color: "#1D4ED8", fontSize: 13, fontWeight: 650 }}>Doctor Prescription Guide <ArrowRight size={13} /></Link></div>
+        <section aria-labelledby="more-guides" style={{ marginBottom: 20 }}><h2 id="more-guides" style={{ fontSize: 18, fontWeight: 750, marginBottom: 12 }}>More document guides</h2><div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}><Link href="/guides" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 13px", borderRadius: 9, background: "#fff", border: "1px solid #E5E7EB", color: "#1D4ED8", fontSize: 13, fontWeight: 650 }}>All Document Guides <ArrowRight size={13} /></Link><Link href="/medical-report-summary-ai" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 13px", borderRadius: 9, background: "#fff", border: "1px solid #E5E7EB", color: "#1D4ED8", fontSize: 13, fontWeight: 650 }}>Medical Report Explainer <ArrowRight size={13} /></Link><Link href="/doctor-prescription-explained" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 13px", borderRadius: 9, background: "#fff", border: "1px solid #E5E7EB", color: "#1D4ED8", fontSize: 13, fontWeight: 650 }}>Doctor Prescription Guide <ArrowRight size={13} /></Link></div></section>
         <div style={{ padding: "28px 24px", borderRadius: 14, background: "#0A1628", textAlign: "center", color: "#fff" }}><p style={{ fontWeight: 800, fontSize: 20, marginBottom: 8, letterSpacing: "-.03em" }}>Have your own CBC report?</p><p style={{ fontSize: 14, color: "rgba(255,255,255,.6)", marginBottom: 20, lineHeight: 1.6 }}>Upload it to get a structured plain-language explanation.</p><Link href="/#upload" style={{ display: "inline-block", background: "#0066CC", color: "#fff", padding: "12px 26px", borderRadius: 10, fontWeight: 700, fontSize: 14 }}>Explain My Document →</Link></div>
       </main>
     </div>
