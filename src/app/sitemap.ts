@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const curated: MetadataRoute.Sitemap = [
     { url: BASE },
+    { url: `${BASE}/documents` },
     { url: `${BASE}/guides` },
     { url: `${BASE}/trust-center` },
     { url: `${BASE}/medical-report-summary-ai` },
