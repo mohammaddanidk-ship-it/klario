@@ -28,13 +28,22 @@ export type DocumentReport = {
   nextSteps: string[];
   questionsToVerify: string[];
   simpleConclusion: string;
-  safety: {
-    highStakes: boolean;
-    disclaimer?: string;
-  };
+  safety: { highStakes: boolean; disclaimer?: string };
 };
 
-const SECTION_ALIASES: Record<string, keyof Pick<DocumentReport, "quickUnderstanding" | "verifiedFacts" | "datesAndDeadlines" | "amountsAndEntities" | "obligationsAndRequests" | "attention" | "uncertainty" | "nextSteps" | "questionsToVerify" | "simpleConclusion">> | null> = {
+type ReportSection =
+  | "quickUnderstanding"
+  | "verifiedFacts"
+  | "datesAndDeadlines"
+  | "amountsAndEntities"
+  | "obligationsAndRequests"
+  | "attention"
+  | "uncertainty"
+  | "nextSteps"
+  | "questionsToVerify"
+  | "simpleConclusion";
+
+const SECTION_ALIASES: Record<string, ReportSection | null> = {
   "quick understanding": "quickUnderstanding",
   "what this means": "verifiedFacts",
   "key details": "verifiedFacts",
@@ -51,12 +60,7 @@ function clean(value: string): string {
 }
 
 function sectionName(line: string): string {
-  return line
-    .replace(/^#+\s*/, "")
-    .replace(/^\d+\.\s*/, "")
-    .replace(/\*+/g, "")
-    .trim()
-    .toLowerCase();
+  return line.replace(/^#+\s*/, "").replace(/^\d+\.\s*/, "").replace(/\*+/g, "").trim().toLowerCase();
 }
 
 function confidenceFor(value: string): ReportEvidence["confidence"] {
@@ -66,31 +70,20 @@ function confidenceFor(value: string): ReportEvidence["confidence"] {
 }
 
 function classifyItems(lines: string[]): ReportItem[] {
-  return lines
-    .map(clean)
-    .filter(Boolean)
-    .map((value) => ({
-      label: value.split(":")[0]?.trim().slice(0, 80) || "Detail",
-      value,
-      importance: /urgent|deadline|warning|risk|critical|must|do not/i.test(value)
-        ? "important"
-        : "normal",
-      evidence: {
-        text: value,
-        source: confidenceFor(value) === "low" ? "uncertain" : "document",
-        confidence: confidenceFor(value),
-      },
-    }));
+  return lines.map(clean).filter(Boolean).map((value) => ({
+    label: value.split(":")[0]?.trim().slice(0, 80) || "Detail",
+    value,
+    importance: /urgent|deadline|warning|risk|critical|must|do not/i.test(value) ? "important" : "normal",
+    evidence: {
+      text: value,
+      source: confidenceFor(value) === "low" ? "uncertain" : "document",
+      confidence: confidenceFor(value),
+    },
+  }));
 }
 
-/**
- * Converts Klarium's human-readable analysis into a stable product schema.
- * This intentionally does not invent missing facts: absent sections stay empty.
- */
-export function buildDocumentReport(
-  explanation: string,
-  detectedType = "document"
-): DocumentReport {
+/** Converts Klarium's human-readable analysis into a stable, non-inventive product schema. */
+export function buildDocumentReport(explanation: string, detectedType = "document"): DocumentReport {
   const lines = explanation.split(/\r?\n/);
   const sections = new Map<string, string[]>();
   let current = "quick understanding";
@@ -98,16 +91,13 @@ export function buildDocumentReport(
   for (const raw of lines) {
     const trimmed = raw.trim();
     if (!trimmed) continue;
-
     const name = sectionName(trimmed);
-    const alias = SECTION_ALIASES[name];
-    if (alias) {
+    if (SECTION_ALIASES[name]) {
       current = name;
       if (!sections.has(current)) sections.set(current, []);
       continue;
     }
-
-    if (/^\*\*document type:\*\*/i.test(trimmed) || /^\*\*what it is:\*\*/i.test(trimmed)) {
+    if (/^\*\*(document type|what it is):\*\*/i.test(trimmed)) {
       const value = clean(trimmed.replace(/^\*\*(document type|what it is):\*\*/i, ""));
       if (value) {
         if (!sections.has("identity")) sections.set("identity", []);
@@ -115,17 +105,13 @@ export function buildDocumentReport(
       }
       continue;
     }
-
     sections.get(current)?.push(trimmed);
   }
 
   const identityLines = sections.get("identity") ?? [];
   const purpose = identityLines.find((x) => !/^(likely )?document type/i.test(x)) ?? "";
   const type = detectedType || identityLines[0] || "document";
-  const identityConfidence: DocumentReport["identity"]["confidence"] = /likely|uncertain|unknown/i.test(type)
-    ? "medium"
-    : "high";
-
+  const identityConfidence: DocumentReport["identity"]["confidence"] = /likely|uncertain|unknown/i.test(type) ? "medium" : "high";
   const values = (name: string) => sections.get(name) ?? [];
   const quick = values("quick understanding");
   const key = values("key details");
@@ -135,14 +121,9 @@ export function buildDocumentReport(
   const questions = values("what to ask / verify");
   const simple = values("in simple words");
   const implications = values("what it means for you");
-
   const mergedFacts = [...key, ...meaning].filter(Boolean);
   const highStakes = /medical|prescription|health|legal|court|tax|financial|bank|insurance|visa|immigration|employment/i.test(type + " " + explanation);
-
-  const uncertainty = lines
-    .filter((line) => /unclear|uncertain|not visible|needs confirmation|cannot be determined|ambiguous|blurry|cropped|missing/i.test(line))
-    .map(clean)
-    .filter(Boolean);
+  const uncertainty = lines.filter((line) => /unclear|uncertain|not visible|needs confirmation|cannot be determined|ambiguous|blurry|cropped|missing/i.test(line)).map(clean).filter(Boolean);
 
   return {
     schemaVersion: "1.0",
@@ -159,9 +140,7 @@ export function buildDocumentReport(
     simpleConclusion: simple.map(clean).join(" ") || quick.map(clean).join(" "),
     safety: {
       highStakes,
-      disclaimer: highStakes
-        ? "This explanation is informational. For high-stakes medical, legal, financial, tax, immigration or insurance decisions, verify important details with the appropriate qualified professional or issuing organization."
-        : undefined,
+      disclaimer: highStakes ? "This explanation is informational. For high-stakes medical, legal, financial, tax, immigration or insurance decisions, verify important details with the appropriate qualified professional or issuing organization." : undefined,
     },
   };
 }
