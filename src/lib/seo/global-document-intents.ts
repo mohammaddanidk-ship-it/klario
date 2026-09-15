@@ -1,0 +1,260 @@
+export type DocumentIntentGroup = {
+  label: string;
+  intents: string[];
+  keywordPatterns: string[];
+};
+
+/**
+ * Global search-language map for Klarium's document intelligence product.
+ *
+ * This is intentionally a keyword/intention registry, not a page generator.
+ * The same real product capability can satisfy many natural-language queries;
+ * we should not create a thin page for every permutation.
+ */
+export const GLOBAL_DOCUMENT_INTENTS: DocumentIntentGroup[] = [
+  {
+    label: "Understand & summarize",
+    intents: [
+      "explain a document",
+      "summarize a document",
+      "understand a document",
+      "read a document for me",
+      "what does this document mean",
+      "document analysis",
+      "document question answering",
+      "AI document reader",
+      "AI document analyzer",
+      "document explainer",
+    ],
+    keywordPatterns: [
+      "document summarizer",
+      "document analyzer",
+      "AI document reader",
+      "AI document explainer",
+      "explain PDF",
+      "summarize PDF",
+      "understand PDF",
+      "ask questions about a PDF",
+      "read PDF with AI",
+      "explain this document",
+    ],
+  },
+  {
+    label: "Extract what matters",
+    intents: [
+      "find key information",
+      "find important dates",
+      "find deadlines",
+      "find amounts",
+      "find obligations",
+      "find names and entities",
+      "find warnings",
+      "find missing information",
+      "extract information from a document",
+    ],
+    keywordPatterns: [
+      "extract data from PDF",
+      "extract information from document",
+      "find dates in PDF",
+      "find deadlines in document",
+      "find amounts in PDF",
+      "find key points in document",
+      "document information extractor",
+      "AI document extraction",
+    ],
+  },
+  {
+    label: "Verify & protect",
+    intents: [
+      "check whether a document is suspicious",
+      "check a letter or message for scams",
+      "verify document claims",
+      "identify red flags",
+      "detect inconsistencies",
+      "check a suspicious PDF",
+      "check a suspicious email or message",
+      "understand what is risky before acting",
+    ],
+    keywordPatterns: [
+      "document scam checker",
+      "PDF scam checker",
+      "suspicious document checker",
+      "document fraud detection",
+      "document verification AI",
+      "AI scam detector",
+      "phishing email checker",
+      "suspicious message checker",
+      "fake document checker",
+    ],
+  },
+  {
+    label: "Compare & reconcile",
+    intents: [
+      "compare two documents",
+      "find differences between documents",
+      "find contradictions",
+      "compare versions of a contract",
+      "compare reports",
+      "reconcile information across documents",
+    ],
+    keywordPatterns: [
+      "compare two PDFs",
+      "compare documents AI",
+      "PDF comparison AI",
+      "find differences between PDFs",
+      "document comparison tool",
+      "compare contract versions",
+      "find contradictions in documents",
+    ],
+  },
+  {
+    label: "Translate & simplify",
+    intents: [
+      "translate a document",
+      "explain a document in simple language",
+      "explain a document in my language",
+      "simplify legal language",
+      "simplify medical language",
+      "translate and explain a PDF",
+    ],
+    keywordPatterns: [
+      "translate PDF",
+      "AI PDF translator",
+      "translate document online",
+      "explain PDF in simple English",
+      "simplify document",
+      "plain language document",
+      "multilingual document AI",
+    ],
+  },
+  {
+    label: "Medical",
+    intents: [
+      "understand medical reports",
+      "understand blood test results",
+      "understand prescriptions",
+      "understand imaging reports",
+      "understand discharge summaries",
+      "prepare questions for a doctor",
+    ],
+    keywordPatterns: [
+      "medical report explained",
+      "AI medical report explanation",
+      "read my medical report",
+      "lab report explanation",
+      "blood test results explained",
+      "CBC results explained",
+      "prescription explained",
+      "MRI report explained",
+      "CT scan report explained",
+      "discharge summary explained",
+      "medical document analyzer",
+    ],
+  },
+  {
+    label: "Legal & government",
+    intents: [
+      "understand contracts",
+      "understand legal notices",
+      "understand court documents",
+      "understand government letters",
+      "find legal deadlines",
+      "understand terms and obligations",
+    ],
+    keywordPatterns: [
+      "legal document explainer",
+      "contract analyzer",
+      "AI contract analyzer",
+      "contract explained in simple language",
+      "legal notice explained",
+      "court letter explained",
+      "government letter explained",
+      "tax notice explained",
+      "terms and conditions explained",
+    ],
+  },
+  {
+    label: "Finance, work & business",
+    intents: [
+      "understand bank documents",
+      "understand invoices and bills",
+      "understand insurance documents",
+      "understand employment documents",
+      "understand business agreements",
+      "understand financial statements",
+    ],
+    keywordPatterns: [
+      "bank letter explained",
+      "bank statement analyzer",
+      "invoice analyzer",
+      "invoice explained",
+      "insurance letter explained",
+      "insurance claim letter explained",
+      "employment contract explained",
+      "job offer letter explained",
+      "payslip explained",
+      "financial document analyzer",
+      "business document analyzer",
+    ],
+  },
+  {
+    label: "Education, research & technical",
+    intents: [
+      "summarize research papers",
+      "understand academic PDFs",
+      "understand manuals",
+      "summarize technical documents",
+      "extract information from reports",
+      "ask questions across long documents",
+    ],
+    keywordPatterns: [
+      "research paper summarizer",
+      "academic PDF summarizer",
+      "AI PDF reader for students",
+      "technical document analyzer",
+      "manual summarizer",
+      "report summarizer",
+      "long PDF summarizer",
+      "ask questions to PDF",
+    ],
+  },
+];
+
+export const GLOBAL_DOCUMENT_CATEGORIES = [
+  "Medical & health documents",
+  "Legal & court documents",
+  "Government & public-service documents",
+  "Immigration & visa documents",
+  "Tax & compliance documents",
+  "Banking & financial documents",
+  "Insurance documents",
+  "Employment & HR documents",
+  "Education & academic documents",
+  "Business & corporate documents",
+  "Contracts & agreements",
+  "Property & rental documents",
+  "Invoices, bills & receipts",
+  "Research papers & reports",
+  "Technical manuals & instructions",
+  "Emails, letters & notices",
+  "Scam, phishing & suspicious messages",
+  "Forms, applications & certificates",
+  "Scanned images and photographed documents",
+  "Unknown or mixed documents",
+] as const;
+
+export const GLOBAL_LANGUAGE_MARKERS = [
+  "English", "Spanish", "French", "German", "Portuguese", "Italian", "Dutch",
+  "Arabic", "Urdu", "Hindi", "Bengali", "Punjabi", "Turkish", "Indonesian",
+  "Malay", "Vietnamese", "Thai", "Filipino", "Japanese", "Korean", "Chinese",
+  "Russian", "Ukrainian", "Polish", "Romanian", "Greek", "Hebrew",
+] as const;
+
+export const GLOBAL_COUNTRY_MARKERS = [
+  "United States", "United Kingdom", "Canada", "Australia", "New Zealand",
+  "India", "Pakistan", "Bangladesh", "United Arab Emirates", "Saudi Arabia",
+  "Germany", "France", "Spain", "Italy", "Netherlands", "Switzerland",
+  "Ireland", "South Africa", "Nigeria", "Kenya", "Singapore", "Malaysia",
+  "Indonesia", "Philippines", "Japan", "South Korea", "China", "Brazil",
+  "Mexico", "Argentina", "Turkey", "Poland", "Sweden", "Norway", "Denmark",
+] as const;
