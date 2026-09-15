@@ -11,7 +11,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const SITE = "https://www.klarium.co";
 const FAVICON = `${SITE}/icon`;
 const BRAND_LOGO = `${SITE}/logo`;
-const BRAND_DESCRIPTION = "Understand important documents and suspicious messages in plain language, with multilingual AI explanations and safety-focused guidance.";
+const BRAND_DESCRIPTION = "Global document intelligence for understanding, extracting, comparing, translating and checking documents and suspicious messages in plain language.";
 const BRAND_TITLE = "Klarium — Understand Anything. Stay Safe. In Your Language.";
 
 export const metadata: Metadata = {
@@ -76,10 +76,18 @@ const structuredData = {
       logo: BRAND_LOGO,
       description: BRAND_DESCRIPTION,
       knowsAbout: [
-        "document understanding",
+        "global document intelligence",
+        "AI document understanding",
+        "document summarization",
+        "document information extraction",
+        "document comparison",
+        "document translation",
         "medical document explanation",
         "legal document explanation",
+        "government document explanation",
         "financial document explanation",
+        "employment and business documents",
+        "research and technical documents",
         "phishing detection",
         "scam detection",
         "multilingual document analysis",
@@ -107,6 +115,9 @@ const structuredData = {
       publisher: { "@id": `${SITE}/#organization` },
       featureList: [
         "AI document explanation",
+        "document summarization",
+        "document information extraction",
+        "document comparison",
         "multilingual explanations",
         "document type detection",
         "doctor prescription explanation",
