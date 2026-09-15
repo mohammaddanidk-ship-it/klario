@@ -11,7 +11,7 @@ import {
 const SITE = "https://www.klarium.co";
 
 export const metadata: Metadata = {
-  title: "AI Document Reader & Analyzer for Any Document | Klarium",
+  title: "AI Document Reader & Analyzer for Any Document",
   description:
     "Understand, summarize, translate, compare and check documents with Klarium. Medical, legal, government, financial, work, education, business, PDF, scans and suspicious messages in one global document intelligence platform.",
   alternates: { canonical: `${SITE}/documents` },
