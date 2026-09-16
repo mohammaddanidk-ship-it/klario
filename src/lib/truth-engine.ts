@@ -7,8 +7,6 @@ export type TruthSignal = {
   reason: string;
 };
 
-const HIGH_STAKES = /medical|prescription|health|legal|court|tax|financial|bank|insurance|visa|immigration|employment|contract/i;
-
 function itemText(item: ReportItem): string {
   return `${item.label}: ${item.value}`;
 }
@@ -35,11 +33,8 @@ export function enrichTruthReport(report: DocumentReport): DocumentReport {
   const attention = [...report.attention];
   const nextSteps = [...report.nextSteps];
   const questions = [...report.questionsToVerify];
-
   const text = allItems.map(itemText).join(" ");
 
-  // If a high-stakes report contains an interpretation but no explicit
-  // confirmation step, force a verification action into the product output.
   if (report.safety.highStakes) {
     const hasVerification = /verify|confirm|doctor|pharmacist|lawyer|attorney|professional|official/i.test(
       `${nextSteps.join(" ")} ${questions.join(" ")}`
@@ -49,17 +44,12 @@ export function enrichTruthReport(report: DocumentReport): DocumentReport {
     }
   }
 
-  // Detect claims that are phrased as certainty even though the explanation
-  // itself contains uncertainty markers nearby. The engine flags the item; it
-  // does not rewrite the underlying claim.
   for (const item of report.verifiedFacts) {
     if (/likely|may|might|possibly|appears|seems|unclear|unknown|cannot|not visible|needs confirmation|ambiguous/i.test(item.value)) {
       uncertain.push(item.value);
     }
   }
 
-  // Documents involving money should expose a reconciliation step whenever
-  // amounts are mentioned but no explicit check exists.
   if (/[$€£¥₹₨]|\b(?:USD|EUR|GBP|PKR|INR|AED|SAR|amount|total|fee|balance|payment|price)\b/i.test(text)) {
     const hasAmountCheck = /amount|total|balance|fee|payment|receipt|invoice|transaction|reconcile|verify/i.test(
       `${nextSteps.join(" ")} ${questions.join(" ")}`
@@ -69,17 +59,12 @@ export function enrichTruthReport(report: DocumentReport): DocumentReport {
         label: "Amounts",
         value: "The analysis contains financial or monetary information. Check the original document before acting on any amount, fee, balance or payment instruction.",
         importance: "important",
-        evidence: {
-          text: "Financial information was detected in the analysis.",
-          source: "document",
-          confidence: "medium",
-        },
+        evidence: { text: "Financial information was detected in the analysis.", source: "document", confidence: "medium" },
       });
       nextSteps.push("Verify important amounts, currency, fees and payment instructions against the original document.");
     }
   }
 
-  // Deadline-bearing documents should always surface an explicit date check.
   if (/deadline|due date|expiry|expires|valid until|renewal|respond by|response required/i.test(text)) {
     const hasDateAction = /date|deadline|expiry|expires|valid|renew/i.test(`${nextSteps.join(" ")} ${questions.join(" ")}`);
     if (!hasDateAction) {
@@ -87,28 +72,18 @@ export function enrichTruthReport(report: DocumentReport): DocumentReport {
         label: "Deadline check",
         value: "A date or deadline appears in the analysis. Confirm the exact date on the original document before relying on it.",
         importance: "critical",
-        evidence: {
-          text: "A date/deadline signal was detected.",
-          source: "document",
-          confidence: "medium",
-        },
+        evidence: { text: "A date/deadline signal was detected.", source: "document", confidence: "medium" },
       });
       nextSteps.push("Confirm the exact deadline or expiry date from the original document.");
     }
   }
 
-  // Security-sensitive documents get a concrete verification action rather
-  // than a generic warning.
   if (/phishing|scam|suspicious|password|pin|otp|verification code|payment link|crypto/i.test(text)) {
     attention.push({
       label: "Security signal",
       value: "The analysis contains a security-sensitive request or suspicious-message signal. Do not rely on the message alone to verify the sender.",
       importance: "critical",
-      evidence: {
-        text: "Security-sensitive language was detected.",
-        source: "document",
-        confidence: "medium",
-      },
+      evidence: { text: "Security-sensitive language was detected.", source: "document", confidence: "medium" },
     });
     nextSteps.push("Verify the sender through a trusted channel before sharing credentials, codes, money or sensitive information.");
   }
