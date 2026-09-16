@@ -17,11 +17,13 @@ import { FAQ } from "@/components/sections/faq";
 import { FinalCTA } from "@/components/sections/final-cta";
 import { Footer } from "@/components/sections/footer";
 import { FontLoader } from "@/components/brand/font-loader";
+import { TruthEngineBridge } from "@/components/sections/truth-engine-bridge";
 
 export default function Home() {
   return (
     <>
       <FontLoader />
+      <TruthEngineBridge />
       <Navigation />
       <main className="flex-1">
         <Hero />
